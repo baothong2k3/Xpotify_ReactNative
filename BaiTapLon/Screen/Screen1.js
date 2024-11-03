@@ -59,11 +59,14 @@ const Screen1 = ({ navigation }) => {
             alignItems: "center",
           }}
         >
+          <TouchableOpacity onPress={() => navigation.navigate("Screen2")}>
           <View style={{}}>
             <Text style={{ color: "rgb(77, 188, 200)", fontSize: 20 }}>
               I already have an account
             </Text>
           </View>
+          </TouchableOpacity>
+
         </TouchableOpacity>
       </View>
     </ScrollView>

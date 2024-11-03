@@ -60,10 +60,12 @@ const Screen2 = ({ navigation }) => {
             justifyContent: "space-between",
           }}
         >
+         
           <Image
             style={{}}
             source={require("../assets/2_image/Container 26.png")}
           />
+          
           <Image
             style={{}}
             source={require("../assets/2_image/Container 27.png")}
@@ -91,10 +93,13 @@ const Screen2 = ({ navigation }) => {
           }}
         >
           <View>
-            <Image
+          <TouchableOpacity onPress={() => navigation.navigate("Screen3")}>
+          <Image
               style={{}}
               source={require("../assets/2_image/Container 31.png")}
             />
+            </TouchableOpacity>
+            
             <Text style={{ color: "rgb(170, 172, 173)" }}>
               Daily chart-toppers{"\n"}update
             </Text>
