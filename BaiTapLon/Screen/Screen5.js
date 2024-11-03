@@ -21,58 +21,18 @@ const Screen3 = ({ navigation }) => {
           }}
         >
           <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            style={{ width: 20, height: 20 }}
-            source={require("../assets/3_image/Back.png")}
-          />
+            <Image
+              style={{ width: 20, height: 20 }}
+              source={require("../assets/3_image/Back.png")}
+            />
           </TouchableOpacity>
-          <Image
-            style={{ width: 20, height: 20 }}
-            source={require("../assets/3_image/Wired Network Connection.png")}
-          />
         </View>
-        <View
-          style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/3_image/Container 31.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-              Top 50 - Canada
-            </Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{ width: 16, height: 16, marginRight: 5 }}
-                source={require("../assets/3_image/Love1.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10 }}>1,234</Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12 }}>05:10:18</Text>
-            </View>
-
-            {/* Dòng mô tả */}
-            <Text style={{ fontSize: 12, color: "#888" }}>
-              Daily chart-toppers update
-            </Text>
-          </View>
-        </View>
+        <Image
+          style={{ marginLeft: 50 }}
+          source={require("../assets/5_image/Image 63.png")}
+        />
+        <Text style={{ fontSize: 24, fontWeight: "bold", textAlign:"center" }}>Ryan Young </Text>
+        <Text style={{ fontSize: 12, color: "#888", textAlign:"center" }}>65.1K Followers</Text>
         <View
           style={{
             flexDirection: "row",
@@ -81,10 +41,11 @@ const Screen3 = ({ navigation }) => {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <Image
-              source={require("../assets/3_image/Love.png")}
-              style={{ width: 20, height: 20 }}
-            />
+            <TouchableOpacity style={{borderWidth:1,borderRadius:10,width:80,height:28,}}>
+                <View>
+                    <Text style={{ fontSize: 12, color: "#888", textAlign:"center",marginTop:3 }}>Follow</Text>
+                </View>
+            </TouchableOpacity>
             <View
               style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}
             >
@@ -113,22 +74,29 @@ const Screen3 = ({ navigation }) => {
             />
           </View>
         </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 20,
+          }}
+        ></View>
 
         <View
           style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }}
         >
           {/* Hình ảnh chính */}
           <TouchableOpacity onPress={() => navigation.navigate("Screen4")}>
-          <Image
-            source={require("../assets/3_image/Image 51.png")}
-            style={{}}
-          />
-            </TouchableOpacity>
+            <Image
+              source={require("../assets/5_image/Image 66.png")}
+              style={{}}
+            />
+          </TouchableOpacity>
 
           {/* Nội dung bên phải hình ảnh */}
           <View style={{ flex: 1, marginLeft: 10 }}>
             {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>FLOWER</Text>
+            <Text style={{ fontSize: 13, fontWeight: "bold" }}>Let you free</Text>
 
             {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
             <View
@@ -139,77 +107,7 @@ const Screen3 = ({ navigation }) => {
               }}
             >
               <Text style={{ fontSize: 12, color: "#888" }}>
-                Jessica Gonzalez
-              </Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                2,1M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>3:36</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/3_image/Image 52.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>
-              Shape of you
-            </Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Anthony Taylor
+                Ryan Young
               </Text>
             </View>
             {/* Dòng mô tả */}
@@ -259,7 +157,7 @@ const Screen3 = ({ navigation }) => {
         >
           {/* Hình ảnh chính */}
           <Image
-            source={require("../assets/3_image/Image 53.png")}
+            source={require("../assets/5_image/Image 67.png")}
             style={{}}
           />
 
@@ -267,7 +165,7 @@ const Screen3 = ({ navigation }) => {
           <View style={{ flex: 1, marginLeft: 10 }}>
             {/* Tên */}
             <Text style={{ fontSize: 13, fontWeight: "bold" }}>
-              Blinding Lights
+            Blinding Lights
             </Text>
 
             {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
@@ -278,7 +176,9 @@ const Screen3 = ({ navigation }) => {
                 marginVertical: 4,
               }}
             >
-              <Text style={{ fontSize: 12, color: "#888" }}>Brian Bailey</Text>
+              <Text style={{ fontSize: 12, color: "#888" }}>
+                Ryan Young
+              </Text>
             </View>
             {/* Dòng mô tả */}
             <View
@@ -322,6 +222,7 @@ const Screen3 = ({ navigation }) => {
             />
           </View>
         </View>
+       
         <View
           style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
         >
@@ -414,9 +315,7 @@ const Screen3 = ({ navigation }) => {
                 marginVertical: 4,
               }}
             >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Pedro Moreno
-              </Text>
+              <Text style={{ fontSize: 12, color: "#888" }}>Pedro Moreno</Text>
             </View>
             {/* Dòng mô tả */}
             <View
@@ -472,9 +371,7 @@ const Screen3 = ({ navigation }) => {
           {/* Nội dung bên phải hình ảnh */}
           <View style={{ flex: 1, marginLeft: 10 }}>
             {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>
-              Dynamite
-            </Text>
+            <Text style={{ fontSize: 13, fontWeight: "bold" }}>Dynamite</Text>
 
             {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
             <View
@@ -484,9 +381,7 @@ const Screen3 = ({ navigation }) => {
                 marginVertical: 4,
               }}
             >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Elena Jumenez
-              </Text>
+              <Text style={{ fontSize: 12, color: "#888" }}>Elena Jumenez</Text>
             </View>
             {/* Dòng mô tả */}
             <View
@@ -531,29 +426,126 @@ const Screen3 = ({ navigation }) => {
           </View>
         </View>
         <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center",backgroundColor:"black",marginLeft:-10,marginRight:-10 }}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: 10,
+            justifyContent: "space-between",
+          }}
         >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/3_image/Image 57.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold",color:"rgb(241, 243, 244)" }}>
-              FLOWER
-            </Text>
-            <Text style={{ fontSize: 12, color:"rgb(241, 243, 244)" }}>
-                Me  Jessica Gonzalez
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            Albums
+          </Text>
+          
+        </View>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
+          <View>
+            <Image
+              style={{}}
+              source={require("../assets/5_image/Image 71.png")}
+            />
+            <Text style={{}}>
+              ME{"\n"}
+              <Text style={{ color: "rgb(170, 172, 173)" }}>
+                Jessical Gonzalez
               </Text>
+            </Text>
           </View>
-          <View style={{ flexDirection: "row", marginLeft: 25,marginBottom:20 }}>
-            <Image  source={require("../assets/3_image/Love3.png")} style={{ width: 20, height: 20, marginRight: 5, marginLeft: -2,position:"absolute",right: 50,borderColor:"white" }} />
-            <Image  source={require("../assets/3_image/Play1.png")} style={{ width: 20, height: 20, marginRight: 5, marginLeft: -2,position:"absolute",right: 10,borderColor:"white" }} />
+          <View>
+            <Image
+              style={{ marginLeft: 5 }}
+              source={require("../assets/5_image/Image 72.png")}
+            />
+            <Text style={{}}>
+              Magna nost{"\n"}
+              <Text style={{ color: "rgb(170, 172, 173)" }}>Brian Thomas</Text>
+            </Text>
+          </View>
+          <View>
+            <Image
+              style={{ marginLeft: 5 }}
+              source={require("../assets/5_image/Image 77.png")}
+            />
+            <Text style={{}}>
+              Procident Simen{"\n"}
+              <Text style={{ color: "rgb(170, 172, 173)" }}>
+                Jessica josep
+              </Text>
+            </Text>
           </View>
         </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            About
+          </Text>        
+        </View>
+          <Image style={{marginTop:10}} source={require("../assets/5_image/Image 73.png")} />
+          <Text style={{ color: '#808080',marginTop:5 }}>Do in cupidatat aute et in officia aute laboris est{"\n"}Lorem est nisi dolor consequat voluptate duis irure.
+          Veniam quis amet irure cillum elit aliquip sunt cillum cillum do aliqua voluptate ad non magna elit. Do ea n</Text>
+          <Text style={{textAlign:"center",color:"rgb(129, 205, 214)",fontWeight:"bold",marginTop:5}}>View more</Text>
+
+          <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            Fans also like
+          </Text>
+          <Text style={{ fontSize: 15, color: "rgb(170, 172, 173)" }}>
+            See all
+          </Text>
+        </View>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
+          <View>
+            <Image
+              style={{}}
+              source={require("../assets/5_image/Image 74.png")}
+            />
+            <Text style={{}}>
+              Magna nost{"\n"}
+              <Text style={{ color: "rgb(170, 172, 173)" }}>
+                Jessical Gonzalez
+              </Text>
+            </Text>
+          </View>
+          <View>
+            <Image
+              style={{ marginLeft: 5 }}
+              source={require("../assets/5_image/Image 75.png")}
+            />
+            <Text style={{}}>
+              Exercitatio{"\n"}
+              <Text style={{ color: "rgb(170, 172, 173)" }}>Brian Thomas</Text>
+            </Text>
+          </View>
+          <View>
+            <Image
+              style={{ marginLeft: 5 }}
+              source={require("../assets/5_image/Image 76.png")}
+            />
+            <Text style={{}}>
+              Tempor uniters{"\n"}
+              <Text style={{ color: "rgb(170, 172, 173)", }}>
+                Tyler Anddst
+              </Text>
+            </Text>
+          </View>
+        </View>
+
+
+
+
         <View
           style={{
             borderTopWidth: 1,
@@ -561,12 +553,14 @@ const Screen3 = ({ navigation }) => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-around",
-            marginLeft:-10,
-            marginRight:-10,
-            paddingVertical:10
+            marginLeft: -10,
+            marginRight: -10,
+            paddingVertical: 20,
+            marginTop: 10,
+
           }}
         >
-          <View>
+          <View style={{}}>
             <Image
               style={{ width: 20, height: 20 }}
               source={require("../assets/2_image/Home.png")}
