@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 
-const Screen3 = ({ navigation }) => {
+const Screen5 = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
@@ -599,4 +599,4 @@ const Screen3 = ({ navigation }) => {
     </ScrollView>
   );
 };
-export default Screen3;
+export default Screen5;
