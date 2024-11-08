@@ -128,17 +128,21 @@ const LibraryScreen = ({ navigation }) => {
             {/* Footer */}
             <View style={styles.footer}>
                 <View style={styles.footerItem}>
-                    <Image
-                        style={styles.footerIcon}
-                        source={require("../assets/2_image/Home.png")}
-                    />
+                    <TouchableOpacity onPress={() => navigation.navigate("Screen1")}>
+                        <Image
+                            style={styles.footerIcon}
+                            source={require("../assets/2_image/Home.png")}
+                        />
+                    </TouchableOpacity>
                     <Text style={styles.footerText}>Home</Text>
                 </View>
                 <View style={styles.footerItem}>
-                    <Image
-                        style={styles.footerIcon}
-                        source={require("../assets/2_image/Search.png")}
-                    />
+                    <TouchableOpacity onPress={() => navigation.navigate("Screen6")}>
+                        <Image
+                            style={styles.footerIcon}
+                            source={require("../assets/2_image/Search.png")}
+                        />
+                    </TouchableOpacity>
                     <Text style={styles.footerText}>Search</Text>
                 </View>
                 <View style={styles.footerItem}>
