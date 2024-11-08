@@ -11,14 +11,14 @@ import {
 
 } from "react-native";
 
-const Screen6 = (navigate) => {
+const Screen6 = ({ navigation }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <ScrollView>
 
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+
         <TextInput
           style={styles.searchInput}
           placeholder="Search"
@@ -27,26 +27,26 @@ const Screen6 = (navigate) => {
         />
         <Image
           source={require("../assets/5_image/Cancel.png")}
-          style={{position:"absolute", width: 25, height: 25, right: 20, top: 57}}
+          style={{ position: "absolute", width: 25, height: 25, right: 20, top: 57 }}
         />
-        <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-            <Text style={{fontSize: 12, fontWeight: "bold", marginTop: 20,color:"rgb(163, 165, 164)"}}>All</Text>
-            <Text style={{fontSize: 12, fontWeight: "bold", marginTop: 20,color:"rgb(163, 165, 164)"}}>Tracks</Text>
-            <Text style={{fontSize: 12, fontWeight: "bold", marginTop: 20,color:"rgb(163, 165, 164)"}}>Albums</Text>
-            <Text style={{fontSize: 12, fontWeight: "bold", marginTop: 20,color:"rgb(163, 165, 164)"}}>Artists</Text>
-        
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>All</Text>
+          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>Tracks</Text>
+          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>Albums</Text>
+          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>Artists</Text>
+
         </View>
 
         <View
           style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }}
         >
           {/* Hình ảnh chính */}
-         
+
           <Image
             source={require("../assets/7_image/Image 85.png")}
             style={{}}
           />
-          
+
 
           {/* Nội dung bên phải hình ảnh */}
           <View style={{ flex: 1, marginLeft: 10 }}>
@@ -66,14 +66,14 @@ const Screen6 = (navigate) => {
               </Text>
             </View>
             {/* Dòng mô tả */}
-          
+
           </View>
           <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-           <TouchableOpacity style={{borderWidth:1,borderRadius:10,width:65,height:28,borderColor:"rgb(210, 211, 215)"}}>
-            <View>
-                <Text style={{textAlign:"center",color:"rgb(210, 211, 215)"}}>Follow</Text>
-            </View>
-           </TouchableOpacity>
+            <TouchableOpacity style={{ borderWidth: 1, borderRadius: 10, width: 65, height: 28, borderColor: "rgb(210, 211, 215)" }}>
+              <View>
+                <Text style={{ textAlign: "center", color: "rgb(210, 211, 215)" }}>Follow</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -81,12 +81,12 @@ const Screen6 = (navigate) => {
           style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }}
         >
           {/* Hình ảnh chính */}
-        
+
           <Image
             source={require("../assets/7_image/Image 83.png")}
             style={{}}
           />
-           
+
 
           {/* Nội dung bên phải hình ảnh */}
           <View style={{ flex: 1, marginLeft: 10 }}>
@@ -421,7 +421,7 @@ const Screen6 = (navigate) => {
             />
           </View>
         </View>
-        
+
         <View
           style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
         >
@@ -595,10 +595,11 @@ const Screen6 = (navigate) => {
             </Text>
           </View>
           <View>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={require("../assets/2_image/Activity Feed.png")}
-            />
+            <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+              <Image
+                style={{ width: 20, height: 20 }}
+                source={require("../assets/2_image/Activity Feed.png")}
+              /></TouchableOpacity>
             <Text style={{ textAlign: "center", fontSize: 10 }}>Feed</Text>
           </View>
           <View>
@@ -611,8 +612,8 @@ const Screen6 = (navigate) => {
             </Text>
           </View>
         </View>
-     
-    </KeyboardAvoidingView>
+
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 };
@@ -620,7 +621,7 @@ const Screen6 = (navigate) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fffff",
     paddingHorizontal: 10,
     paddingTop: 50,
   },
