@@ -22,7 +22,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="FeedScreen"
+        initialRouteName="Screen1"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Screen1" component={Screen1} />
