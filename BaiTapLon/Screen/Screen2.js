@@ -1,307 +1,257 @@
 import React from "react";
+import Icon from "react-native-vector-icons/Ionicons";
 import {
   View,
   Text,
-  Button,
   Image,
   TouchableOpacity,
   TextInput,
   ScrollView,
+  StyleSheet
 } from "react-native";
+
 const Screen2 = ({ navigation }) => {
   return (
-    <ScrollView>
-      <View style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <Image source={require("../assets/2_image/Image 36.png")} />
-          <View style={{ display: "flex", flexDirection: "row" }}>
-            <Image
-              style={{ width: 30, height: 30, marginRight: 10, marginTop: 4 }}
-              source={require("../assets/2_image/Notification.png")}
-            />
-            <Image source={require("../assets/2_image/Avatar 3.png")} />
-          </View>
-        </View>
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ fontSize: 12 }}>Good morning,</Text>
-        </View>
-        <Text style={{ fontWeight: "bold", fontSize: 20, marginTop: 20 }}>
-          Ashley Scott
-        </Text>
-        <View
-          style={{
-            borderRadius: 10,
-            borderWidth: 1,
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 10,
-          }}
-        >
-          <Image
-            style={{ width: 20, height: 20, marginTop: 4 }}
-            source={require("../assets/2_image/Search.png")}
-          />
-          <TextInput placeholder="What you want to listen to" />
-        </View>
-        <Text style={{ fontWeight: "bold", fontSize: 18, marginTop: 20 }}>
-          Suggestions for you
-        </Text>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-         
-          <Image
-            style={{}}
-            source={require("../assets/2_image/Container 26.png")}
-          />
-          
-          <Image
-            style={{}}
-            source={require("../assets/2_image/Container 27.png")}
-          />
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Charts</Text>
-          <Text style={{ fontSize: 15, color: "rgb(170, 172, 173)" }}>
-            See all
-          </Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <View>
-          <TouchableOpacity onPress={() => navigation.navigate("Screen3")}>
-          <Image
-              style={{}}
-              source={require("../assets/2_image/Container 31.png")}
-            />
-            </TouchableOpacity>
-            
-            <Text style={{ color: "rgb(170, 172, 173)" }}>
-              Daily chart-toppers{"\n"}update
-            </Text>
-          </View>
-          <View>
-            <Image
-              style={{}}
-              source={require("../assets/2_image/Container 32.png")}
-            />
-            <Text style={{ color: "rgb(170, 172, 173)" }}>
-              Daily chart-toppers{"\n"}update
-            </Text>
-          </View>
-          <View>
-            <Image
-              style={{}}
-              source={require("../assets/2_image/Container 33.png")}
-            />
-            <Text style={{ color: "rgb(170, 172, 173)" }}>
-              Daily chart-toppers{"\n"}update
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-            Trending albums
-          </Text>
-          <Text style={{ fontSize: 15, color: "rgb(170, 172, 173)" }}>
-            See all
-          </Text>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
-          <View>
-            <Image
-              style={{}}
-              source={require("../assets/2_image/Image 45.png")}
-            />
-            <Text style={{}}>
-              ME{"\n"}
-              <Text style={{ color: "rgb(170, 172, 173)" }}>
-                Jessical Gonzalez
-              </Text>
-            </Text>
-          </View>
-          <View>
-            <Image
-              style={{ marginLeft: 5 }}
-              source={require("../assets/2_image/Image 46.png")}
-            />
-            <Text style={{}}>
-              Magna nost{"\n"}
-              <Text style={{ color: "rgb(170, 172, 173)" }}>Brian Thomas</Text>
-            </Text>
-          </View>
-          <View>
-            <Image
-              style={{ marginLeft: 5 }}
-              source={require("../assets/2_image/Image 47.png")}
-            />
-            <Text style={{}}>
-              Magna nost{"\n"}
-              <Text style={{ color: "rgb(170, 172, 173)" }}>
-                Christop Template
-              </Text>
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-            Popular artists
-          </Text>
-          <Text style={{ fontSize: 15, color: "rgb(170, 172, 173)" }}>
-            See all
-          </Text>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
-          <View>
-            <Image
-              style={{}}
-              source={require("../assets/2_image/Image 39.png")}
-            />
-            <Text style={{ textAlign: "center" }}>Jennifer Wilson</Text>
-            <TouchableOpacity
+    <View style={styles.container}>
+      {/* Nội dung cuộn */}
+      <ScrollView
+        vertical
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: "20%" }} // Để tránh nội dung bị chồng lên Bottom Navigation
+      >
+        {/* Header */}
+        <View style={{ margin: "4%", marginTop: "10%" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Image source={require("../assets/2_image/Image 36.png")} />
+            <View
               style={{
-                backgroundColor: "black",
-                width: 60,
-                height: 30,
-                borderRadius: 10,
-                justifyContent: "center",
+                flexDirection: "row",
                 alignItems: "center",
-                marginLeft: 38,
+                width: "25%",
+                justifyContent: "space-between",
               }}
             >
-              <Text style={{ color: "white" }}>Follow</Text>
-            </TouchableOpacity>
+              <Image
+                source={require("../assets/2_image/Notification.png")}
+                style={{ width: 30, height: 30 }}
+              />
+              <Image source={require("../assets/2_image/Avatar 3.png")} />
+            </View>
           </View>
+
+          {/* Greeting */}
           <View>
-            <Image
-              style={{ marginLeft: 5 }}
-              source={require("../assets/2_image/Image 40.png")}
-            />
-            <Text style={{ textAlign: "center" }}>Elizabeth Hall</Text>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "black",
-                width: 60,
-                height: 30,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginLeft: 38,
-              }}
-            >
-              <Text style={{ color: "white" }}>Follow</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Image
-              style={{ marginLeft: 5 }}
-              source={require("../assets/2_image/Image 41.png")}
-            />
-            <Text style={{ textAlign: "center" }}>Anthor Wilson</Text>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "black",
-                width: 60,
-                height: 30,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginLeft: 38,
-              }}
-            >
-              <Text style={{ color: "white" }}>Follow</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View
-          style={{
-            borderTopWidth: 1,
-            borderColor: "rgb(175, 179, 182)",
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 10,
-            justifyContent: "space-around",
-            marginLeft:-10,
-            marginRight:-10,
-            paddingVertical:10
-          }}
-        >
-          <View>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={require("../assets/2_image/Home.png")}
-            />
-            <Text style={{ textAlign: "center", fontSize: 10, marginLeft: -3 }}>
-              Home
+            <Text style={{ fontSize: 16, color: "#666" }}>Good morning,</Text>
+            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+              Ashley Scott
             </Text>
           </View>
-          <View>
+
+          {/* Search Bar */}
+          <View style={styles.searchBar}>
             <Image
-              style={{ width: 20, height: 20 }}
               source={require("../assets/2_image/Search.png")}
-            />
-            <Text style={{ textAlign: "center", fontSize: 10, marginLeft: -3 }}>
-              Search
-            </Text>
-          </View>
-          <View>
-            <Image
               style={{ width: 20, height: 20 }}
-              source={require("../assets/2_image/Activity Feed.png")}
             />
-            <Text style={{ textAlign: "center", fontSize: 10 }}>Feed</Text>
-          </View>
-          <View>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={require("../assets/2_image/book1.png")}
+            <TextInput
+              placeholder="What you want to listen to"
+              style={{ flex: 1, fontSize: 16 }}
             />
-            <Text style={{ textAlign: "center", fontSize: 10, marginLeft: -3 }}>
-              Library
-            </Text>
           </View>
         </View>
+
+        {/* Suggestions for you */}
+        <View style={{ margin: "4%", marginTop: "2%" }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: '2%' }}>Suggestions for you</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
+            {/* Các hình ảnh */}
+            <Image
+              source={require("../assets/2_image/Container 26.png")}
+              style={{}}
+            />
+            <View style={{ paddingHorizontal: '15' }}>
+              <Image
+                source={require("../assets/2_image/Container 27.png")}
+                style={{}}
+              />
+            </View>
+            <Image
+              source={require("../assets/2_image/Container 27.png")}
+              style={{}}
+            />
+          </ScrollView>
+        </View>
+        {/* Charts */}
+        <View style={{ margin: "4%", marginTop: "2%" }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: '2%' }}>Charts</Text>
+            <Text style={{ color: "#aaa" }}>See all</Text>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <TouchableOpacity onPress={() => navigation.navigate("Screen3")}>
+                <Image
+                  source={require("../assets/2_image/Container 31.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={{ paddingHorizontal: '15' }}>
+                <Image
+                  source={require("../assets/2_image/Container 32.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  source={require("../assets/2_image/Container 33.png")}
+                />
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+
+        {/* Trending Albums */}
+        <View style={{ margin: "4%", marginTop: "2%" }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: '2%' }}>Trending albums</Text>
+            <Text style={{ color: "#aaa" }}>See all</Text>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={{}}>
+              <Image
+                source={require("../assets/2_image/Image 45.png")}
+              />
+              <Text style={{ fontWeight: "bold", marginVertical: '3%' }}>ME</Text>
+              <Text style={{ color: "#aaa" }}>Jessica Gonzalez</Text>
+            </View>
+            <View style={{ paddingHorizontal: '15' }}>
+              <Image
+                source={require("../assets/2_image/Image 46.png")}
+              />
+              <Text style={{ fontWeight: "bold", marginVertical: '3%' }}>Magna nost</Text>
+              <Text style={{ color: "#aaa" }}>Brian Thomas</Text>
+            </View>
+          </ScrollView>
+        </View>
+        {/*Popular artists */}
+        <View style={{ margin: "4%", marginTop: "2%" }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: '2%' }}>Popular artists</Text>
+            <Text style={{ color: "#aaa" }}>See all</Text>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Image
+                source={require("../assets/2_image/Image 39.png")}
+              />
+              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Jennifer Wilson</Text>
+              <TouchableOpacity style={{
+                width: '50%',
+                backgroundColor: 'black',
+                borderRadius: 15,
+                alignSelf: 'center',
+                height: 30,
+                justifyContent: 'center'
+              }}>
+                <Text style={{ textAlign: 'center', color: '#ffff' }}>Follow</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: '20' }}>
+              <Image
+                source={require("../assets/2_image/Image 40.png")}
+              />
+              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Elizabeth Hall</Text>
+              <TouchableOpacity style={{
+                width: '50%',
+                backgroundColor: 'black',
+                borderRadius: 15,
+                alignSelf: 'center',
+                height: 30,
+                justifyContent: 'center'
+              }}>
+                <Text style={{ textAlign: 'center', color: '#ffff' }}>Follow</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Image
+                source={require("../assets/2_image/Image 41.png")}
+              />
+              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Antony Matheus</Text>
+              <TouchableOpacity style={{
+                width: '50%',
+                backgroundColor: 'black',
+                borderRadius: 15,
+                alignSelf: 'center',
+                height: 30,
+                justifyContent: 'center'
+              }}>
+                <Text style={{ textAlign: 'center', color: '#ffff' }}>Follow</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+      </ScrollView>
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity onPress={() => navigation.navigate("Screen2")}>
+          <Icon name="home-outline" size={24} color="#54aeff" />
+          <Text style={styles.navText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Screen6")}>
+          <Icon name="search-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Search</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+          <Icon name="list-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Feed</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("LibraryScreen")}>
+          <Icon name="library-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Library</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View >
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  searchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f1f1f1",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    height: 40,
+  },
+  bottomNav: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "white",
+    padding: "3%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderTopWidth: 1,
+    borderColor: "#eee",
+  },
+  navText: {
+    fontSize: 12,
+    textAlign: "center",
+    marginTop: 4,
+  },
+});
 export default Screen2;

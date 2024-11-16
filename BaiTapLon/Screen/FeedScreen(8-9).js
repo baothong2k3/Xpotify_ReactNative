@@ -215,54 +215,52 @@ const FeedScreen = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      {/* Footer */}
-      <View style={styles.footer}>
-        <View style={styles.footerItem}>
-        <TouchableOpacity onPress={() => navigation.navigate("Screen1")}>
-          <Image
-            style={styles.footerIcon}
-            source={require("../assets/2_image/Home.png")}
-          />
-          </TouchableOpacity>
-          <Text style={styles.footerText}>Home</Text>
-        </View>
-        <View style={styles.footerItem}>
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity onPress={() => navigation.navigate("Screen2")}>
+          <Icon name="home-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Home</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Screen6")}>
-          <Image
-            style={styles.footerIcon}
-            source={require("../assets/2_image/Search.png")}
-          />
-          </TouchableOpacity>
-          <Text style={styles.footerText}>Search</Text>
-        </View>
-        <View style={styles.footerItem}>
-          <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
-            <Image
-              style={styles.footerIcon}
-              source={require("../assets/2_image/Activity Feed.png")}
-            />
-          </TouchableOpacity>
-          <Text style={styles.footerText}>Feed</Text>
-        </View>
-        <View style={styles.footerItem}>
-          <TouchableOpacity onPress={() => navigation.navigate("LibraryScreen")}>
-          <Image
-            style={styles.footerIcon}
-            source={require("../assets/2_image/book1.png")}
-          />
-          </TouchableOpacity>
-          <Text style={styles.footerText}>Library</Text>
-        </View>
+          <Icon name="search-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Search</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+          <Icon name="list-outline" size={24} color="#54aeff" />
+          <Text style={styles.navText}>Feed</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("LibraryScreen")}>
+          <Icon name="library-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Library</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  bottomNav: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "white",
+    padding: "3%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderTopWidth: 1,
+    borderColor: "#eee",
+  },
+  navText: {
+    fontSize: 12,
+    textAlign: "center",
+    marginTop: 4,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     padding: 16,
+    paddingBottom: "10%"
   },
   headerContainer: {
     flexDirection: 'row',
@@ -278,30 +276,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: 20,
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    borderTopWidth: 1,
-    borderColor: 'rgb(175, 179, 182)',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#fff',
-    paddingVertical: 20,
-  },
-  footerItem: {
-    alignItems: 'center',
-  },
-  footerIcon: {
-    width: 25,
-    height: 25,
-  },
-  footerText: {
-    fontSize: 10,
-    textAlign: 'center',
-    marginTop: 4,
   },
   postContainer: {
     borderRadius: 8,
