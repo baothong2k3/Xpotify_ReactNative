@@ -28,90 +28,90 @@ const playlists = [
 const PlaylistScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            {/* Header */}
-            <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                    <Icon name="arrow-back" size={24} color="#000" />
-                </TouchableOpacity>
-                <Text style={styles.feedTitle}>Your playlists</Text>
-            </View>
-            <FlatList
-                data={playlists}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.playlistItem}>
-                        <Image source={item.image} style={styles.image} />
-                        <View style={{ flex: 1 }}>
-                            <Text style={styles.title}>{item.title}</Text>
-                            <Text style={styles.subtitle}>
-                                {item.author} • {item.numOfSongs} songs
-                            </Text>
-                        </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Icon name="chevron-forward-outline" size={24} color="black" />
-                        </View>
+            <View style={{ margin: '4%' }}>
+                {/* Header */}
+                <View style={styles.headerContainer}>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                        <Icon name="arrow-back" size={24} color="#000" />
                     </TouchableOpacity>
-                )}
-            />
+                    <Text style={styles.feedTitle}>Your playlists</Text>
+                </View>
+                <FlatList
+                    data={playlists}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity style={styles.playlistItem}>
+                            <Image source={item.image} style={styles.image} />
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.title}>{item.title}</Text>
+                                <Text style={styles.subtitle}>
+                                    {item.author} • {item.numOfSongs} songs
+                                </Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Icon name="chevron-forward-outline" size={24} color="black" />
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
+            </View>
             <TouchableOpacity style={styles.addButton}>
                 <Image source={require('../assets/Screen11/IconButton5.png')} />
             </TouchableOpacity>
-            {/* Footer */}
-            <View style={styles.footer}>
-                <View style={styles.footerItem}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Screen1")}>
-                        <Image
-                            style={styles.footerIcon}
-                            source={require("../assets/2_image/Home.png")}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.footerText}>Home</Text>
-                </View>
-                <View style={styles.footerItem}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Screen6")}>
-                        <Image
-                            style={styles.footerIcon}
-                            source={require("../assets/2_image/Search.png")}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.footerText}>Search</Text>
-                </View>
-                <View style={styles.footerItem}>
-                    <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
-                        <Image
-                            style={styles.footerIcon}
-                            source={require("../assets/2_image/Activity Feed.png")}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.footerText}>Feed</Text>
-                </View>
-                <View style={styles.footerItem}>
-                    <TouchableOpacity onPress={() => navigation.navigate("LibraryScreen")}>
-                        <Image
-                            style={styles.footerIcon}
-                            source={require("../assets/2_image/book1.png")}
-                        />
-                    </TouchableOpacity>
-                    <Text style={styles.footerText}>Library</Text>
-                </View>
+            {/* Bottom Navigation */}
+            <View style={styles.bottomNav}>
+                <TouchableOpacity onPress={() => navigation.navigate("Screen2")}>
+                    <Icon name="home-outline" size={24} color="#000" />
+                    <Text style={styles.navText}>Home</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Screen6")}>
+                    <Icon name="search-outline" size={24} color="#000" />
+                    <Text style={styles.navText}>Search</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+                    <Icon name="list-outline" size={24} color="#000" />
+                    <Text style={styles.navText}>Feed</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("LibraryScreen")}>
+                    <Icon name="library-outline" size={24} color="#54aeff" />
+                    <Text style={styles.navText}>Library</Text>
+                </TouchableOpacity>
             </View>
         </View>
+
     );
 };
 
 const styles = StyleSheet.create({
+    bottomNav: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: "white",
+        padding: "3%",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        borderTopWidth: 1,
+        borderColor: "#eee",
+    },
+    navText: {
+        fontSize: 12,
+        textAlign: "center",
+        marginTop: 4,
+    },
     container: {
         flex: 1,
-        paddingHorizontal: 16,
+        paddingBottom: '10%',
         backgroundColor: 'white',
     },
     headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 16,
+        paddingVertical: '5%',
     },
     backButton: {
-        marginRight: 8,
+        marginRight: '1%',
     },
     feedTitle: {
         fontSize: 24,
@@ -120,38 +120,13 @@ const styles = StyleSheet.create({
     listContainer: {
         paddingBottom: 20,
     },
-    footer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        borderTopWidth: 1,
-        borderColor: 'rgb(175, 179, 182)',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor: '#fff',
-        paddingVertical: 20,
-    },
-    footerItem: {
-        alignItems: 'center',
-    },
-    footerIcon: {
-        width: 25,
-        height: 25,
-    },
-    footerText: {
-        fontSize: 10,
-        textAlign: 'center',
-        marginTop: 4,
-    },
     header: {
         fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
+        fontWeight: 'bold'
     },
     playlistItem: {
         flexDirection: 'row',
-        paddingVertical: 10,
+        paddingVertical: '2%',
         alignItems: 'center',
     },
     image: {
@@ -170,7 +145,7 @@ const styles = StyleSheet.create({
     },
     addButton: {
         position: 'absolute',
-        bottom: 120,
+        bottom: 100,
         right: 30,
         backgroundColor: '#000',
         borderRadius: 25,
