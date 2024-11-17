@@ -1,649 +1,308 @@
-import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Image,
-  TouchableOpacity,
-  ScrollView,
+import React, { useState } from 'react';
+import { View, Text, TextInput, FlatList, Image, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-} from "react-native";
+const songsData = [
+  { id: '1', title: 'Me', artist: 'Jessica Gonzalez', plays: '2.1M', duration: '3:36', image: require('../assets/7_image/Image 83.png') },
+  { id: '2', title: 'Me Inc', artist: 'Anthony Taylor', plays: '68M', duration: '3:35', image: require('../assets/7_image/Image 84.png') },
+  { id: '3', title: 'Dozz me', artist: 'Brian Bailey', plays: '93M', duration: '4:39', image: require('../assets/7_image/Image 86.png') },
+  { id: '4', title: 'Eastss me', artist: 'Anthony Taylor', plays: '9M', duration: '7:48', image: require('../assets/7_image/Image 87.png') },
+  { id: '5', title: 'Me Ali', artist: 'Pedro Moreno', plays: '23M', duration: '3:36', image: require('../assets/7_image/Image 88.png') },
+  { id: '6', title: 'Me quis a', artist: 'Elena Jimenez', plays: '10M', duration: '6:22', image: require('../assets/7_image/Image 89.png') },
+  { id: '7', title: 'Me light', artist: 'John Smith', plays: '81M', duration: '5:15', image: require('../assets/7_image/Image 90.png') },
+];
 
-const Screen6 = ({ navigation }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const Screen7 = ({ navigation }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('All');
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
+  const openModal = (song) => {
+    setSelectedSong(song);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedSong(null);
+  };
+  const renderSong = ({ item }) => (
+    <TouchableOpacity onPress={() => openModal(item)}>
+      <View style={styles.songContainer}>
+        <Image source={item.image} style={styles.songImage} />
+        <View style={styles.songDetails}>
+          <Text style={styles.songTitle}>{item.title}</Text>
+          <Text style={styles.songArtist}>{item.artist}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon name="caret-forward" size={14} color="gray" />
+            <Text style={[styles.songArtist, { marginHorizontal: "1%" }]}>{item.plays}</Text>
+            <Icon name="ellipse" size={8} color="gray" style={{ marginHorizontal: "1%" }} />
+            <Text style={[styles.songDuration, { marginHorizontal: "1%" }]}>{item.duration}</Text>
+          </View>
+        </View>
+        <TouchableOpacity>
+          <Icon name="ellipsis-horizontal-sharp" size={20} color="gray" />
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
-    <ScrollView>
-
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
-
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search"
-          value={searchTerm}
-          onChangeText={setSearchTerm}
-        />
-        <Image
-          source={require("../assets/5_image/Cancel.png")}
-          style={{ position: "absolute", width: 25, height: 25, right: 20, top: 57 }}
-        />
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>All</Text>
-          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>Tracks</Text>
-          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>Albums</Text>
-          <Text style={{ fontSize: 12, fontWeight: "bold", marginTop: 20, color: "rgb(163, 165, 164)" }}>Artists</Text>
-
+    <View style={styles.container}>
+      <View style={{ paddingTop: '10%', margin: '4%', paddingBottom: "20%" }}>
+        {/* Thanh tìm kiếm */}
+        <View style={{ alignItems: 'center' }}>
+          <View style={styles.searchBar}>
+            <Icon name="search" size={20} color="#888" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+          </View>
         </View>
 
-        <View
-          style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-
-          <Image
-            source={require("../assets/7_image/Image 85.png")}
-            style={{}}
-          />
-
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>Mer Watson</Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
+        {/* Tabs */}
+        <View style={styles.tabs}>
+          {['All', 'Tracks', 'Albums', 'Artists'].map((tab) => (
+            <TouchableOpacity
+              key={tab}
+              onPress={() => setActiveTab(tab)}
+              style={[
+                styles.tab,
+                activeTab === tab && styles.activeTab,
+              ]}
             >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                1.234K Followers
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === tab && styles.activeTabText,
+                ]}
+              >
+                {tab}
               </Text>
-            </View>
-            {/* Dòng mô tả */}
-
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <TouchableOpacity style={{ borderWidth: 1, borderRadius: 10, width: 65, height: 28, borderColor: "rgb(210, 211, 215)" }}>
-              <View>
-                <Text style={{ textAlign: "center", color: "rgb(210, 211, 215)" }}>Follow</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        {/* Danh sách bài hát */}
+        <TouchableOpacity onPress={{}}>
+          <View style={styles.songContainer}>
+            <Image source={require('../assets/7_image/Image 85.png')} style={styles.songImage} />
+            <View style={styles.songDetails}>
+              <Text style={styles.songTitle}>Mer Watson</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Icon name="person-outline" size={18} color="gray" />
+                <Text style={styles.songArtist}>1.234K Followers</Text>
               </View>
+            </View>
+            <TouchableOpacity style={styles.followButton}>
+              <Text style={styles.followText}>Follow</Text>
             </TouchableOpacity>
           </View>
-        </View>
-
-        <View
-          style={{ marginTop: 20, flexDirection: "row", alignItems: "center" }}
+        </TouchableOpacity>
+        <FlatList
+          data={songsData}
+          keyExtractor={(item) => item.id}
+          renderItem={renderSong}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity onPress={() => navigation.navigate("Screen2")}>
+          <Icon name="home-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Screen6")}>
+          <Icon name="search-outline" size={24} color="#54aeff" />
+          <Text style={styles.navText}>Search</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+          <Icon name="list-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Feed</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("LibraryScreen")}>
+          <Icon name="library-outline" size={24} color="#000" />
+          <Text style={styles.navText}>Library</Text>
+        </TouchableOpacity>
+      </View>
+      {/* Modal hiển thị bài hát */}
+      {selectedSong && (
+        <Modal
+          visible={isModalVisible}
+          transparent
+          animationType="slide"
+          onRequestClose={closeModal}
         >
-          {/* Hình ảnh chính */}
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                {/* Ảnh bài hát */}
+                <Image source={selectedSong.image} style={styles.modalImage} />
 
-          <Image
-            source={require("../assets/7_image/Image 83.png")}
-            style={{}}
-          />
-
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>Me</Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Jessica Gonzalez
-              </Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                2,1M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>3:36</Text>
+                {/* Thông tin bài hát */}
+                <View style={{ flex: 1, marginRight: "2%" }}>
+                  <Text style={styles.modalTitle} numberOfLines={1} ellipsizeMode="tail">
+                    {selectedSong.title}
+                  </Text>
+                  <Text style={styles.modalArtist} numberOfLines={1} ellipsizeMode="tail">
+                    {selectedSong.artist}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                  <TouchableOpacity style={{ marginRight: "4%" }}>
+                    <Icon name="play-outline" size={24} color="white" />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ marginRight: "4%" }}>
+                    <Icon name="heart-outline" size={24} color="white" />
+                  </TouchableOpacity>
+                  {/* Nút đóng modal luôn đứng cuối */}
+                  <TouchableOpacity onPress={closeModal}>
+                    <Icon name="close" size={24} color="red" />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/3_image/Image 52.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>
-              Me Inc
-            </Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Anthony Taylor
-              </Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                68M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>03:35</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/3_image/Image 53.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>
-              Dozz me
-            </Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>Brian Bailey</Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                93M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>04:39</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/3_image/Image 54.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>Eastss me</Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Anthony Taylor
-              </Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                9M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>07:48</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/7_image/Image 88.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>Me Ali</Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Pedro Moreno
-              </Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                23M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>3:36</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-
-        <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/3_image/Image 56.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>
-              Me quis a
-            </Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                Elena Jumenez
-              </Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                10M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>06:22</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{ marginTop: 10, flexDirection: "row", alignItems: "center" }}
-        >
-          {/* Hình ảnh chính */}
-          <Image
-            source={require("../assets/7_image/Image 90.png")}
-            style={{}}
-          />
-
-          {/* Nội dung bên phải hình ảnh */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            {/* Tên */}
-            <Text style={{ fontSize: 13, fontWeight: "bold" }}>
-              Me light
-            </Text>
-
-            {/* Dòng biểu tượng yêu thích, số lượng và thời gian */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Text style={{ fontSize: 12, color: "#888" }}>
-                John Smith
-              </Text>
-            </View>
-            {/* Dòng mô tả */}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginVertical: 4,
-              }}
-            >
-              <Image
-                style={{
-                  width: 16,
-                  height: 16,
-                  marginRight: 5,
-                  marginLeft: -2,
-                }}
-                source={require("../assets/3_image/Play.png")}
-              />
-              <Text style={{ fontSize: 12, marginRight: 10, color: "#888" }}>
-                81M
-              </Text>
-              <Image
-                style={{ width: 15, height: 15, marginRight: 10 }}
-                source={require("../assets/3_image/Full Stop.png")}
-              />
-              <Text style={{ fontSize: 12, color: "#888" }}>05:15</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 25, marginTop: 4 }}>
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-            <Image
-              source={require("../assets/3_image/Full Stop.png")}
-              style={{ width: 8, height: 8 }}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            borderTopWidth: 1,
-            borderColor: "rgb(175, 179, 182)",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around",
-            marginLeft: -10,
-            marginRight: -10,
-            paddingVertical: 20,
-            marginTop: 10,
-
-          }}
-        >
-          <View style={{}}>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={require("../assets/2_image/Home.png")}
-            />
-            <Text style={{ textAlign: "center", fontSize: 10, marginLeft: -3 }}>
-              Home
-            </Text>
-          </View>
-          <View>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={require("../assets/2_image/Search.png")}
-            />
-            <Text style={{ textAlign: "center", fontSize: 10, marginLeft: -3 }}>
-              Search
-            </Text>
-          </View>
-          <View>
-            <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
-              <Image
-                style={{ width: 20, height: 20 }}
-                source={require("../assets/2_image/Activity Feed.png")}
-              /></TouchableOpacity>
-            <Text style={{ textAlign: "center", fontSize: 10 }}>Feed</Text>
-          </View>
-          <View>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={require("../assets/2_image/book1.png")}
-            />
-            <Text style={{ textAlign: "center", fontSize: 10, marginLeft: -3 }}>
-              Library
-            </Text>
-          </View>
-        </View>
-
-      </KeyboardAvoidingView>
-    </ScrollView>
+        </Modal>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  bottomNav: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "white",
+    padding: "3%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderTopWidth: 1,
+    borderColor: "#eee",
+  },
+  navText: {
+    fontSize: 12,
+    textAlign: "center",
+    marginTop: 4,
+  },
+  followButton: {
+    paddingVertical: "2%",
+    paddingHorizontal: "5%",
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderStyle: 'solid',
+  },
+  followText: {
+    color: 'gray',
+    fontWeight: 'bold',
+  },
   container: {
     flex: 1,
-    backgroundColor: "#fffff",
-    paddingHorizontal: 10,
-    paddingTop: 50,
+    backgroundColor: '#fff',
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#888',
+    width: '90%',
+    paddingHorizontal: "2%",
+    paddingVertical: "1%",
+    borderRadius: 25,
   },
   searchInput: {
-    height: 40,
-    borderColor: "#00BFFF", // Màu xanh nhạt cho viền
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    marginBottom: 10,
+    flex: 1,
   },
-  listContainer: {
-    paddingVertical: 10,
+  tabs: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginVertical: "2%",
   },
-  itemText: {
+  tab: {
+    padding: 10,
+  },
+  activeTab: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#007aff',
+  },
+  tabText: {
     fontSize: 16,
-    color: "#333",
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    marginTop: 5,
+    color: '#888',
+  },
+  activeTabText: {
+    color: '#007aff',
+    fontWeight: 'bold',
+  },
+  songContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: "2%",
+  },
+  songDetails: {
+    flex: 1,
+    marginHorizontal: "3%"
+  },
+  songTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  songArtist: {
+    color: "gray",
+  },
+  songDuration: {
+    color: "gray",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  modalContent: {
+    backgroundColor: "black",
+    width: "100%",
+    position: "absolute",
+    bottom: "8%",
+    left: 0,
+    right: 0,
+    padding: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+    maxWidth: 150,
+  },
+  modalArtist: {
+    fontSize: 14,
+    color: "white",
+    maxWidth: 150,
+  },
+  modalActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+    marginLeft: "1%",
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    padding: 10,
+    borderRadius: 50,
   },
 });
 
-export default Screen6;
+export default Screen7;

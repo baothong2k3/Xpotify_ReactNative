@@ -6,28 +6,29 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Image,
+  TouchableOpacity
 } from "react-native";
 
-const Screen6 = (navigate) => {
+const Screen6 = ({ navigation }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search"
-          value={searchTerm}
-          onChangeText={setSearchTerm}
-        />
-        <Image
-          source={require("../assets/5_image/Cancel.png")}
-          style={{position:"absolute", width: 25, height: 25, right: 20, top: 57}}
-        />
-     
+
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search"
+        value={searchTerm}
+        onChangeText={setSearchTerm}
+      />
+      <Image
+        source={require("../assets/5_image/Cancel.png")}
+        style={{ position: "absolute", width: 25, height: 25, right: 20, top: 57 }}
+      />
+
 
       <View style={styles.listContainer}>
-        <Text style={styles.itemText}>Me</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Screen7")}><Text style={styles.itemText}>Me</Text></TouchableOpacity>
         <Text style={styles.itemText}>me illum id aliquip</Text>
         <Text style={styles.itemText}>me lorem</Text>
         <Text style={styles.itemText}>Me Gonzalez</Text>
