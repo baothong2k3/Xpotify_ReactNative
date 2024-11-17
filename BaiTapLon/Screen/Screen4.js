@@ -1,169 +1,130 @@
-import React from "react";
-import { View, Text, ImageBackground, StyleSheet, Image } from "react-native";
+import React from 'react';
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const Screen4 = ({ navigation }) => {
+const Screen4  = () => {
   return (
     <ImageBackground
-      source={require("../assets/4_image/Image 58.png")} // Đặt hình nền
-      style={styles.backgroundImage} // Style cho hình nền
+      source={require('../assets/4_image/Image 58.png')}
+      style={styles.background}
     >
-      {/* Lớp phủ bóng chính */}
-      <View style={styles.overlay} />
+      <View style={styles.header}>
+        <Text style={styles.time}>9:41</Text>
+        <TouchableOpacity>
+          <Icon name="chevron-down-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
 
-      {/* Nội dung hiển thị trên hình nền */}
-      <View style={styles.contentContainer}>
-        <View style={styles.playContainer}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 40,
-              paddingBottom: 10,
-              marginLeft: 10,
-              marginRight: 10,
-            }}
-          >
-            <Text style={styles.playText}>Play</Text>
-            <Image
-              style={{ width: 25, height: 25 }}
-              source={require("../assets/4_image/Expand Arrow.png")}
-            />
-          </View>
-        </View>
+      <View style={styles.songInfo}>
+        <Text style={styles.songTitle}>FLOWER</Text>
+        <Text style={styles.artistName}>Jessica Gonzalez</Text>
+      </View>
 
-        <View style={styles.textOverlayContainer}>
-          <View style={{ marginLeft: 10, marginRight: 10 }}>
-            <Text style={styles.overlayText}>FLOWER</Text>
-            <Text style={{ color: "rgb(172, 173, 177)" }}>
-              Jessica Gonzalez
-            </Text>
-            <Image source={require("../assets/4_image/Group 4.png")} />
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text style={{ color: "rgb(172, 173, 177)" }}>0:06</Text>
-              <Text style={{ color: "rgb(172, 173, 177)", marginRight: 7 }}>
-                3:08
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginTop: 20,
-              }}
-            >
-              <Image
-                source={require("../assets/4_image/Repeat.png")}
-                style={{ width: 30, height: 30 }}
-              />
-              <Image
-                source={require("../assets/4_image/Skip to Start.png")}
-                style={{ width: 30, height: 30 }}
-              />
-              <Image
-                source={require("../assets/4_image/Circled Play.png")}
-                style={{ width: 30, height: 30 }}
-              />
-              <Image
-                source={require("../assets/4_image/End.png")}
-                style={{ width: 30, height: 30 }}
-              />
-              <View
-                style={{ flexDirection: "row", marginTop: 10, marginRight: 10 }}
-              >
-                <Image
-                  source={require("../assets/3_image/Full Stop.png")}
-                  style={{ width: 10, height: 10 }}
-                />
-                <Image
-                  source={require("../assets/3_image/Full Stop.png")}
-                  style={{ width: 10, height: 10 }}
-                />
-                <Image
-                  source={require("../assets/3_image/Full Stop.png")}
-                  style={{ width: 10, height: 10 }}
-                />
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 10,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginLeft: 5,
-              marginBottom: 50,
-              marginTop: 20,
-            }}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flexDirection: "row" }}>
-                <Image
-                  source={require("../assets/4_image/Love.png")}
-                  style={{ width: 30, height: 30 }}
-                />
-                <Text style={{ color: "white", marginTop: 5, marginLeft: 3 }}>
-                  12K
-                </Text>
-              </View>
-              <View style={{ flexDirection: "row", marginLeft: 20 }}>
-                <Image
-                  source={require("../assets/4_image/Speech Bubble.png")}
-                  style={{ width: 30, height: 30 }}
-                />
-                <Text style={{ color: "white", marginTop: 5, marginLeft: 3 }}>
-                  450
-                </Text>
-              </View>
-            </View>
-            <Image
-              source={require("../assets/4_image/Export.png")}
-              style={{ width: 30, height: 30, marginRight: 15 }}
-            />
-          </View>
+      <View style={styles.waveformContainer}>
+        <View style={styles.waveform}></View>
+      </View>
+
+      <View style={styles.controls}>
+        <TouchableOpacity>
+          <Icon name="shuffle-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Icon name="play-skip-back-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.playButton}>
+          <Icon name="play-outline" size={32} color="#000" />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Icon name="play-skip-forward-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Icon name="ellipsis-horizontal-outline" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.socialIcons}>
+        <View style={styles.iconRow}>
+          <Icon name="heart-outline" size={20} color="#fff" />
+          <Text style={styles.iconText}>12K</Text>
         </View>
+        <View style={styles.iconRow}>
+          <Icon name="chatbubble-outline" size={20} color="#fff" />
+          <Text style={styles.iconText}>450</Text>
+        </View>
+        <Icon name="share-outline" size={20} color="#fff" />
       </View>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    width: 360,
-    height: 680,
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'space-between',
+    padding: 20,
+    paddingBottom: 50,
   },
-  overlay: {
-    ...StyleSheet.absoluteFillObject, // Để lớp phủ che toàn bộ hình nền
-    backgroundColor: "rgba(0, 0, 0, -0.8)", // Màu đen với độ trong suốt 40%
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  contentContainer: {
-    paddingHorizontal: 10,
-  },
-  playContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Nền cho chữ 'Play' với độ trong suốt
-    padding: 8,
-    marginLeft: -20,
-    marginRight: -20,
-  },
-  playText: {
-    color: "white",
-    fontWeight: "bold",
+  time: {
+    color: '#fff',
     fontSize: 18,
   },
-  textOverlayContainer: {
-    position: "absolute",
-    bottom: -550,
-    left: 10,
-    marginLeft: -10,
-    marginRight: 100,
-    marginTop: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Màu đen với độ trong suốt 60%
+  songInfo: {
+    alignItems: 'center',
   },
-  overlayText: {
-    color: "white",
+  songTitle: {
+    color: '#fff',
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  artistName: {
+    color: '#fff',
     fontSize: 16,
-    fontWeight: "bold",
+    opacity: 0.7,
+  },
+  waveformContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  waveform: {
+    backgroundColor: '#fff',
+    height: 50,
+    width: '90%',
+    borderRadius: 25,
+    opacity: 0.7,
+  },
+  controls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: 10,
+  },
+  playButton: {
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    padding: 20,
+  },
+  socialIcons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  iconRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconText: {
+    color: '#fff',
+    marginLeft: 5,
   },
 });
 
