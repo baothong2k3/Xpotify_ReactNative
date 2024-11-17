@@ -66,7 +66,7 @@ const LibraryScreen = ({ navigation }) => {
                 {/* Header */}
                 <View style={styles.headerContainer}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <Icon name="arrow-back" size={24} color="#000" />
+                        <Icon name="chevron-back-sharp" size={24} color="#000" />
                     </TouchableOpacity>
                     <Text style={styles.feedTitle}>Your Library</Text>
                 </View>

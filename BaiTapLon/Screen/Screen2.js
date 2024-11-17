@@ -151,10 +151,10 @@ const Screen2 = ({ navigation }) => {
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Image
-                source={require("../assets/2_image/Image 39.png")}
-              />
-              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Jennifer Wilson</Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Screen5")}><Image
+                source={require('../assets/5_image/Image 63.png')} style={{ width: 136, height: 136 }} />
+              </TouchableOpacity>
+              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Ryan Young</Text>
               <TouchableOpacity style={{
                 width: '50%',
                 backgroundColor: 'black',
@@ -167,6 +167,22 @@ const Screen2 = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: '20' }}>
+              <TouchableOpacity onPress={() => navigation.navigate("Screen5")}><Image
+                source={require("../assets/2_image/Image 39.png")}
+              /></TouchableOpacity>
+              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Jennifer Wilson</Text>
+              <TouchableOpacity style={{
+                width: '50%',
+                backgroundColor: 'black',
+                borderRadius: 15,
+                alignSelf: 'center',
+                height: 30,
+                justifyContent: 'center'
+              }}>
+                <Text style={{ textAlign: 'center', color: '#ffff' }}>Follow</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <Image
                 source={require("../assets/2_image/Image 40.png")}
               />
@@ -182,7 +198,7 @@ const Screen2 = ({ navigation }) => {
                 <Text style={{ textAlign: 'center', color: '#ffff' }}>Follow</Text>
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: '20' }}>
               <Image
                 source={require("../assets/2_image/Image 41.png")}
               />
