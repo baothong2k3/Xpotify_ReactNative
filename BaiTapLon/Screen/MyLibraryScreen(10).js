@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -6,9 +6,11 @@ import {
     Image,
     TouchableOpacity,
     StyleSheet,
+    Modal
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import Slider from '@react-native-community/slider';
+import { Audio } from 'expo-av';
 const songs = [
     {
         id: '1',
@@ -17,49 +19,199 @@ const songs = [
         plays: '2.1M',
         duration: '3:36',
         image: require('../assets/Screen10/Image101.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1c4iAyqzRND2TnM3GO0iGh5N3DOJLwmh3',
     },
     {
         id: '2',
-        title: 'Shape of You',
-        artist: 'Anthony Taylor',
-        plays: '68M',
-        duration: '3:35',
+        title: 'Occaecat',
+        artist: 'Jose Garcia',
+        plays: '1.5M',
+        duration: '4:20',
         image: require('../assets/Screen10/Image102.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1N92Or5Z2Y7jW61mCM8NFVtQpJYsheb_k',
     },
     {
         id: '3',
-        title: 'Blinding Lights',
+        title: 'Luctus',
         artist: 'Ashley Scott',
-        songs: '4 songs',
+        plays: '3.8M',
+        duration: '3:50',
         image: require('../assets/Screen10/Image103.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1rEXxQVB58R0l8EbxZZCd4ATJRyvIZzvW',
     },
     {
         id: '4',
-        title: 'Levitating',
-        artist: 'Anthony Taylor',
-        plays: '9M',
-        duration: '7:48',
+        title: 'Tempus Vivamus',
+        artist: 'Maria Johnson',
+        plays: '2.7M',
+        duration: '4:12',
         image: require('../assets/Screen10/Image104.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1htuRwn5iLK4gsPYnEgcJYshdPWD2Flq1',
     },
     {
         id: '5',
-        title: 'Astronaut in the Ocean',
-        artist: 'Pedro Moreno',
-        plays: '23M',
-        duration: '3:36',
+        title: 'Metus',
+        artist: 'Kevin Adams',
+        plays: '1.9M',
+        duration: '3:15',
         image: require('../assets/Screen10/Image105.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1lv1x2b1mjSVhNVykv3PMcxj64EKYR09i',
     },
     {
         id: '6',
-        title: 'Dynamite',
-        artist: 'Elena Jimenez',
-        plays: '10M',
-        duration: '6:22',
+        title: 'Ultricies Pellentesque',
+        artist: 'Emma Brown',
+        plays: '3.2M',
+        duration: '3:45',
         image: require('../assets/Screen10/Image106.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1JZjs9wy3jWXq5mtDJmTC8CJwJVBNIVP6',
+    },
+    {
+        id: '7',
+        title: 'Aliquet Magna',
+        artist: 'James Lee',
+        plays: '4.1M',
+        duration: '3:40',
+        image: require('../assets/Screen10/Image107.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1YEDpgEnCTq0f557Je2m7nhNMpFy-a92G',
+    },
+    {
+        id: '8',
+        title: 'Gravida Quam',
+        artist: 'Sophia Wilson',
+        plays: '2.3M',
+        duration: '4:00',
+        image: require('../assets/Screen10/Image106.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1wSWpcB1gmg945UMCUSMhRSxxCH-hdxjI',
+    },
+    {
+        id: '9',
+        title: 'Fringilla Vel',
+        artist: 'Liam Miller',
+        plays: '1.6M',
+        duration: '3:30',
+        image: require('../assets/Screen10/Image105.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1aeGSJWPfEiSSvIGELO0R5hDc1_zDe6x4',
+    },
+    {
+        id: '10',
+        title: 'Hendrerit',
+        artist: 'Ella Martinez',
+        plays: '2.9M',
+        duration: '3:55',
+        image: require('../assets/Screen10/Image104.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1GNchCL9OLXDwpdxmJ9YwmucQk-ybnKxg',
+    },
+    {
+        id: '11',
+        title: 'Suspendisse',
+        artist: 'Lucas Taylor',
+        plays: '3.5M',
+        duration: '4:10',
+        image: require('../assets/Screen10/Image103.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1l_Lw2yqHt7O-Uw8MrYrIorlvwz-AO7Y8',
+    },
+    {
+        id: '12',
+        title: 'Accumsan',
+        artist: 'Mia Anderson',
+        plays: '4.0M',
+        duration: '4:25',
+        image: require('../assets/Screen10/Image102.png'),
+        audio: 'https://drive.google.com/uc?export=download&id=1PImmPU3NBnpNJVsX7eNH2kVySvZRIvWs',
     },
 ];
 
 const LibraryScreen = ({ navigation }) => {
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [selectedSong, setSelectedSong] = useState(null);
+    const [sound, setSound] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentSong, setCurrentSong] = useState(null);
+    const [position, setPosition] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const openModal = async (song) => {
+        setSelectedSong(song);
+        setModalVisible(true);
+        await playPauseAudio(song.audio); // Phát nhạc khi modal mở
+    };
+
+    const closeModal = async () => {
+        setModalVisible(false);
+        setSelectedSong(null);
+        await stopAudio(); // Ngừng nhạc khi modal đóng
+    };
+
+
+    useEffect(() => {
+        const updateStatus = async () => {
+            if (sound) {
+                const status = await sound.getStatusAsync();
+                if (status.isLoaded) {
+                    setPosition(status.positionMillis || 0);
+                    setDuration(status.durationMillis || 0);
+                }
+            }
+        };
+
+        const interval = setInterval(updateStatus, 1000);
+        return () => clearInterval(interval);
+    }, [sound]);
+
+    const playPauseAudio = async (audioUri) => {
+        try {
+            if (currentSong !== audioUri) {
+                if (sound) await sound.unloadAsync(); // Unload current sound
+                const { sound: newSound } = await Audio.Sound.createAsync(
+                    { uri: audioUri }
+                );
+                setSound(newSound);
+                setCurrentSong(audioUri);
+                await newSound.playAsync();
+                setIsPlaying(true);
+            } else {
+                if (isPlaying) {
+                    await sound.pauseAsync();
+                } else {
+                    await sound.playAsync();
+                }
+                setIsPlaying(!isPlaying);
+            }
+        } catch (error) {
+            console.error('Error playing audio:', error);
+        }
+    };
+
+    const stopAudio = async () => {
+        if (sound) {
+            await sound.stopAsync();
+            setIsPlaying(false);
+            setPosition(0);
+        }
+    };
+
+    const formatTime = (millis) => {
+        if (!millis) return '0:00';
+        const minutes = Math.floor(millis / 60000);
+        const seconds = Math.floor((millis % 60000) / 1000);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+    const handlePreviousSong = async () => {
+        const currentIndex = songs.findIndex((song) => song.id === selectedSong.id);
+        const previousIndex = (currentIndex - 1 + songs.length) % songs.length; // Vòng lặp về cuối danh sách
+        const previousSong = songs[previousIndex];
+        setSelectedSong(previousSong);
+        await playPauseAudio(previousSong.audio); // Phát nhạc của bài trước
+    };
+
+    const handleNextSong = async () => {
+        const currentIndex = songs.findIndex((song) => song.id === selectedSong.id);
+        const nextIndex = (currentIndex + 1) % songs.length; // Vòng lặp về đầu danh sách
+        const nextSong = songs[nextIndex];
+        setSelectedSong(nextSong);
+        await playPauseAudio(nextSong.audio); // Phát nhạc của bài tiếp theo
+    };
+
     return (
         <View style={styles.container}>
             <View style={{ margin: '4%' }}>
@@ -103,29 +255,90 @@ const LibraryScreen = ({ navigation }) => {
                 </View>
 
                 <FlatList
+                    showsVerticalScrollIndicator={false}
                     data={songs}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                        <View style={styles.song}>
-                            <Image style={styles.songImage} source={item.image} />
-                            <View style={styles.songInfo}>
-                                <Text style={styles.songTitle}>{item.title}</Text>
-                                <Text style={styles.songArtist}>
-                                    {item.artist} •{' '}
-                                    {item.plays
-                                        ? `${item.plays}  •  ${item.duration}`
-                                        : `${item.songs}`}
-                                </Text>
+                        <TouchableOpacity onPress={() => openModal(item)}>
+                            <View style={styles.song}>
+                                <Image style={styles.songImage} source={item.image} />
+                                <View style={styles.songInfo}>
+                                    <Text style={styles.songTitle}>{item.title}</Text>
+                                    <Text style={styles.songArtist}>
+                                        {item.artist} •{' '}
+                                        {item.plays
+                                            ? `${item.plays}  •  ${item.duration}`
+                                            : `${item.songs}`}
+                                    </Text>
+                                </View>
+                                {item.plays && (
+                                    <Icon name="heart-outline" size={24} color="skyblue" />
+                                )}
+                                {!item.plays && (
+                                    <Icon name="chevron-forward-outline" size={24} color="black" />
+                                )}
                             </View>
-                            {item.plays && (
-                                <Icon name="heart-outline" size={24} color="skyblue" />
-                            )}
-                            {!item.plays && (
-                                <Icon name="chevron-forward-outline" size={24} color="black" />
-                            )}
-                        </View>
+                        </TouchableOpacity>
                     )}
                 />
+                {selectedSong && (
+                    <Modal
+                        visible={isModalVisible}
+                        transparent
+                        animationType="slide"
+                        onRequestClose={closeModal}>
+                        <View style={styles.modalOverlay}>
+                            <View style={styles.modalContent}>
+                                {/* Song Info */}
+                                <View style={styles.modalHeader}>
+                                    <Image source={selectedSong.image} style={styles.modalImage} />
+                                    <View style={{ flex: 1, marginHorizontal: 10 }}>
+                                        <Text style={styles.modalTitle}>{selectedSong.title}</Text>
+                                        <Text style={styles.modalArtist}>{selectedSong.artist}</Text>
+                                    </View>
+                                    <TouchableOpacity onPress={closeModal}>
+                                        <Icon name="close" size={48} color="red" />
+                                    </TouchableOpacity>
+                                </View>
+
+                                {/* Player Controls */}
+                                <View style={styles.controls}>
+                                    <TouchableOpacity onPress={() => handlePreviousSong()}>
+                                        <Icon name="play-skip-back-outline" size={48} color="white" />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => playPauseAudio(selectedSong.audio)}>
+                                        <Icon
+                                            name={isPlaying ? "pause-circle-outline" : "play-circle-outline"}
+                                            size={48}
+                                            color="white"
+                                        />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => handleNextSong()}>
+                                        <Icon name="play-skip-forward-outline" size={48} color="white" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                            {/* Progress Bar at the Bottom */}
+                            <View style={styles.progressContainer}>
+                                <Text style={styles.progressText}>{formatTime(position)}</Text>
+                                <Slider
+                                    style={styles.progressBar}
+                                    minimumValue={0}
+                                    maximumValue={duration}
+                                    value={position}
+                                    minimumTrackTintColor="#1db954"
+                                    maximumTrackTintColor="#ccc"
+                                    thumbTintColor="#1db954"
+                                    onSlidingComplete={async (value) => {
+                                        if (sound) await sound.setPositionAsync(value);
+                                    }}
+                                />
+                                <Text style={styles.progressText}>{formatTime(duration)}</Text>
+                            </View>
+                        </View>
+                    </Modal>
+                )}
             </View>
             {/* Bottom Navigation */}
             <View style={styles.bottomNav}>
@@ -171,7 +384,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingBottom: "10%",
+        paddingBottom: "22%",
         backgroundColor: 'white',
     },
     headerContainer: {
@@ -264,6 +477,63 @@ const styles = StyleSheet.create({
     songArtist: {
         color: 'gray',
     },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: "flex-end",
+        paddingBottom: '17%',
+    },
+    modalContent: {
+        backgroundColor: "black",
+        padding: 16,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+    },
+    modalHeader: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 20,
+    },
+    modalImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 8,
+    },
+    modalTitle: {
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    modalArtist: {
+        color: "gray",
+        fontSize: 14,
+    },
+    controls: {
+        alignItems: "center",
+        marginVertical: 20,
+    },
+    progressContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 16,
+        backgroundColor: "black",
+        height: 60,
+    },
+    progressText: {
+        fontSize: 14,
+        color: "white",
+    },
+    progressBar: {
+        flex: 1,
+        marginHorizontal: 10,
+    },
+    controls: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        marginVertical: 20,
+    },
+
 });
 
 export default LibraryScreen;
