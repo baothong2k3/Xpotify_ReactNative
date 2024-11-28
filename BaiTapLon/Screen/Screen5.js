@@ -1,20 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import Slider from '@react-native-community/slider';
+import { Audio } from 'expo-av';
 const Screen5 = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
+  const [sound, setSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [position, setPosition] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const openModal = async (song) => {
+    setSelectedSong(song);
+    setModalVisible(true);
+    await playPauseAudio(song.audio); // Phát nhạc khi modal mở
+  };
+
+  const closeModal = async () => {
+    setModalVisible(false);
+    setSelectedSong(null);
+    await stopAudio(); // Ngừng nhạc khi modal đóng
+  };
+
+
+  useEffect(() => {
+    const updateStatus = async () => {
+      if (sound) {
+        const status = await sound.getStatusAsync();
+        if (status.isLoaded) {
+          setPosition(status.positionMillis || 0);
+          setDuration(status.durationMillis || 0);
+        }
+      }
+    };
+
+    const interval = setInterval(updateStatus, 1000);
+    return () => clearInterval(interval);
+  }, [sound]);
+
+  const playPauseAudio = async (audioUri) => {
+    try {
+      if (currentSong !== audioUri) {
+        if (sound) await sound.unloadAsync(); // Unload current sound
+        const { sound: newSound } = await Audio.Sound.createAsync(
+          { uri: audioUri }
+        );
+        setSound(newSound);
+        setCurrentSong(audioUri);
+        await newSound.playAsync();
+        setIsPlaying(true);
+      } else {
+        if (isPlaying) {
+          await sound.pauseAsync();
+        } else {
+          await sound.playAsync();
+        }
+        setIsPlaying(!isPlaying);
+      }
+    } catch (error) {
+      console.error('Error playing audio:', error);
+    }
+  };
+
+  const stopAudio = async () => {
+    if (sound) {
+      await sound.stopAsync();
+      setIsPlaying(false);
+      setPosition(0);
+    }
+  };
+
+  const formatTime = (millis) => {
+    if (!millis) return '0:00';
+    const minutes = Math.floor(millis / 60000);
+    const seconds = Math.floor((millis % 60000) / 1000);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+  const handlePreviousSong = async () => {
+    const currentIndex = songs.findIndex((song) => song.id === selectedSong.id);
+    const previousIndex = (currentIndex - 1 + songs.length) % songs.length; // Vòng lặp về cuối danh sách
+    const previousSong = songs[previousIndex];
+    setSelectedSong(previousSong);
+    await playPauseAudio(previousSong.audio); // Phát nhạc của bài trước
+  };
+
+  const handleNextSong = async () => {
+    const currentIndex = songs.findIndex((song) => song.id === selectedSong.id);
+    const nextIndex = (currentIndex + 1) % songs.length; // Vòng lặp về đầu danh sách
+    const nextSong = songs[nextIndex];
+    setSelectedSong(nextSong);
+    await playPauseAudio(nextSong.audio); // Phát nhạc của bài tiếp theo
+  };
   const artist = {
     name: 'Ryan Young',
     followers: '65.1K Followers',
     imageUrl: require('../assets/5_image/Image 63.png'),
     popularSongs: [
-      { id: '1', title: 'Let you free', plays: '68M', duration: '03:35', imageUrl: require('../assets/5_image/Image 66.png') },
-      { id: '2', title: 'Blinding Lights', plays: '93M', duration: '04:39', imageUrl: require('../assets/5_image/Image 67.png') },
-      { id: '3', title: 'Levitating', plays: '9M', duration: '07:48', imageUrl: require('../assets/5_image/Image 68.png') },
-      { id: '4', title: 'Astronaut in the Ocean', plays: '23M', duration: '03:36', imageUrl: require('../assets/5_image/Image 69.png') },
-      { id: '5', title: 'Dynamite', plays: '10M', duration: '06:22', imageUrl: require('../assets/5_image/Image 70.png') },
+      { id: '1', title: 'Skyfall', plays: '68M', duration: '03:35', imageUrl: require('../assets/5_image/Image 66.png'), audio: 'https://drive.google.com/uc?export=download&id=1c4iAyqzRND2TnM3GO0iGh5N3DOJLwmh3', },
+      { id: '2', title: 'Somewhere Only We Know', plays: '93M', duration: '04:39', imageUrl: require('../assets/5_image/Image 67.png'), audio: 'https://drive.google.com/uc?export=download&id=1N92Or5Z2Y7jW61mCM8NFVtQpJYsheb_k', },
+      { id: '3', title: 'Die With Smile', plays: '9M', duration: '07:48', imageUrl: require('../assets/5_image/Image 68.png'), audio: 'https://drive.google.com/uc?export=download&id=1rEXxQVB58R0l8EbxZZCd4ATJRyvIZzvW', },
+      { id: '4', title: 'Circles', plays: '23M', duration: '03:36', imageUrl: require('../assets/5_image/Image 69.png'), audio: 'https://drive.google.com/uc?export=download&id=1htuRwn5iLK4gsPYnEgcJYshdPWD2Flq1', },
+      { id: '5', title: 'I Had Some Help', plays: '10M', duration: '06:22', imageUrl: require('../assets/5_image/Image 70.png'), audio: 'https://drive.google.com/uc?export=download&id=1lv1x2b1mjSVhNVykv3PMcxj64EKYR09i', },
     ],
     albums: [
       { id: '1', title: 'ME', artist: 'Jessica Gonzalez', imageUrl: require('../assets/5_image/Image 71.png') },
@@ -29,17 +116,6 @@ const Screen5 = ({ navigation }) => {
       { id: '3', title: 'Tempor pariatur', artist: 'Tyler Anderson', imageUrl: require('../assets/5_image/Image 76.png') },
     ],
   };
-
-  const openModal = (song) => {
-    setSelectedSong(song);
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-    setSelectedSong(null);
-  };
-
   const renderSong = ({ item }) => (
     <TouchableOpacity onPress={() => openModal(item)}>
       <View style={styles.songContainer}>
@@ -157,36 +233,55 @@ const Screen5 = ({ navigation }) => {
             visible={isModalVisible}
             transparent
             animationType="slide"
-            onRequestClose={closeModal}
-          >
+            onRequestClose={closeModal}>
             <View style={styles.modalOverlay}>
               <View style={styles.modalContent}>
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-                  {/* Ảnh bài hát */}
+                {/* Song Info */}
+                <View style={styles.modalHeader}>
                   <Image source={selectedSong.imageUrl} style={styles.modalImage} />
-
-                  {/* Thông tin bài hát */}
-                  <View style={{ flex: 1, marginRight: "2%" }}>
-                    <Text style={styles.modalTitle} numberOfLines={1} ellipsizeMode="tail">
-                      {selectedSong.title}
-                    </Text>
-                    <Text style={styles.modalArtist} numberOfLines={1} ellipsizeMode="tail">
-                      {artist.name}
-                    </Text>
+                  <View style={{ flex: 1, marginHorizontal: 10 }}>
+                    <Text style={styles.modalTitle}>{selectedSong.title}</Text>
+                    <Text style={styles.modalArtist}>{selectedSong.artist}</Text>
                   </View>
-                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <TouchableOpacity style={{ marginRight: "4%" }}>
-                      <Icon name="play-outline" size={24} color="white" />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ marginRight: "4%" }}>
-                      <Icon name="heart-outline" size={24} color="white" />
-                    </TouchableOpacity>
-                    {/* Nút đóng modal luôn đứng cuối */}
-                    <TouchableOpacity onPress={closeModal}>
-                      <Icon name="close" size={24} color="red" />
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity onPress={closeModal}>
+                    <Icon name="close" size={48} color="red" />
+                  </TouchableOpacity>
                 </View>
+
+                {/* Player Controls */}
+                <View style={styles.controls}>
+                  <TouchableOpacity onPress={() => handlePreviousSong()}>
+                    <Icon name="play-skip-back-outline" size={48} color="white" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => playPauseAudio(selectedSong.audio)}>
+                    <Icon
+                      name={isPlaying ? "pause-circle-outline" : "play-circle-outline"}
+                      size={48}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleNextSong()}>
+                    <Icon name="play-skip-forward-outline" size={48} color="white" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* Progress Bar at the Bottom */}
+              <View style={styles.progressContainer}>
+                <Text style={styles.progressText}>{formatTime(position)}</Text>
+                <Slider
+                  style={styles.progressBar}
+                  minimumValue={0}
+                  maximumValue={duration}
+                  value={position}
+                  minimumTrackTintColor="#1db954"
+                  maximumTrackTintColor="#ccc"
+                  thumbTintColor="#1db954"
+                  onSlidingComplete={async (value) => {
+                    if (sound) await sound.setPositionAsync(value);
+                  }}
+                />
+                <Text style={styles.progressText}>{formatTime(duration)}</Text>
               </View>
             </View>
           </Modal>
@@ -326,48 +421,58 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     justifyContent: "flex-end",
+    paddingBottom: '17%',
   },
   modalContent: {
     backgroundColor: "black",
-    width: "100%",
-    position: "absolute",
-    bottom: "8%",
-    left: 0,
-    right: 0,
-    padding: 10,
+    padding: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
-  modalImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-    marginRight: 10,
-  },
-  modalTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white",
-    maxWidth: 150,
-  },
-  modalArtist: {
-    fontSize: 14,
-    color: "white",
-    maxWidth: 150,
-  },
-  modalActions: {
+  modalHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    flex: 1,
-    marginLeft: "1%",
+    marginBottom: 20,
   },
-  closeButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    padding: 10,
-    borderRadius: 50,
+  modalImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+  },
+  modalTitle: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  modalArtist: {
+    color: "gray",
+    fontSize: 14,
+  },
+  controls: {
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  progressContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    backgroundColor: "black",
+    height: 60,
+  },
+  progressText: {
+    fontSize: 14,
+    color: "white",
+  },
+  progressBar: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+  controls: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    marginVertical: 20,
   },
 });
 
