@@ -533,7 +533,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         marginVertical: 20,
     },
-
 });
 
 export default LibraryScreen;
