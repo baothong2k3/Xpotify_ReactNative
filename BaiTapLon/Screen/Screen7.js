@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, Image, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Slider from '@react-native-community/slider';
+import { Audio } from 'expo-av';
 
 const songsData = [
-  { id: '1', title: 'Me', artist: 'Jessica Gonzalez', plays: '2.1M', duration: '3:36', image: require('../assets/7_image/Image 83.png') },
-  { id: '2', title: 'Me Inc', artist: 'Anthony Taylor', plays: '68M', duration: '3:35', image: require('../assets/7_image/Image 84.png') },
-  { id: '3', title: 'Dozz me', artist: 'Brian Bailey', plays: '93M', duration: '4:39', image: require('../assets/7_image/Image 86.png') },
-  { id: '4', title: 'Eastss me', artist: 'Anthony Taylor', plays: '9M', duration: '7:48', image: require('../assets/7_image/Image 87.png') },
-  { id: '5', title: 'Me Ali', artist: 'Pedro Moreno', plays: '23M', duration: '3:36', image: require('../assets/7_image/Image 88.png') },
-  { id: '6', title: 'Me quis a', artist: 'Elena Jimenez', plays: '10M', duration: '6:22', image: require('../assets/7_image/Image 89.png') },
-  { id: '7', title: 'Me light', artist: 'John Smith', plays: '81M', duration: '5:15', image: require('../assets/7_image/Image 90.png') },
+  { id: '1', title: 'Skyfall', artist: 'Adele', plays: '2.1M', duration: '4:49', image: require('../assets/7_image/Image 83.png'), audio: 'https://drive.google.com/uc?export=download&id=1c4iAyqzRND2TnM3GO0iGh5N3DOJLwmh3', },
+  { id: '2', title: 'Somewhere Only We Know', artist: 'Keane', plays: '68M', duration: '3:35', image: require('../assets/7_image/Image 84.png'), audio: 'https://drive.google.com/uc?export=download&id=1N92Or5Z2Y7jW61mCM8NFVtQpJYsheb_k', },
+  { id: '3', title: 'Die With Smile', artist: 'Lady Gaga', plays: '93M', duration: '4:12', image: require('../assets/7_image/Image 86.png'), audio: 'https://drive.google.com/uc?export=download&id=1rEXxQVB58R0l8EbxZZCd4ATJRyvIZzvW', },
+  { id: '4', title: 'Circles', artist: 'Post Malone', plays: '9M', duration: '3:46', image: require('../assets/7_image/Image 87.png'), audio: 'https://drive.google.com/uc?export=download&id=1htuRwn5iLK4gsPYnEgcJYshdPWD2Flq1', },
+  { id: '5', title: 'I Had Some Help', artist: 'Post Malone', plays: '23M', duration: '3:04', image: require('../assets/7_image/Image 88.png'), audio: 'https://drive.google.com/uc?export=download&id=1lv1x2b1mjSVhNVykv3PMcxj64EKYR09i', },
+  { id: '6', title: 'Missin You Like This', artist: 'Post Malone', plays: '10M', duration: '3:43', image: require('../assets/7_image/Image 89.png'), audio: 'https://drive.google.com/uc?export=download&id=1JZjs9wy3jWXq5mtDJmTC8CJwJVBNIVP6', },
+  { id: '7', title: 'Take What You Want', artist: 'Post Malone', plays: '81M', duration: '3:48', image: require('../assets/7_image/Image 90.png'), audio: 'https://drive.google.com/uc?export=download&id=1YEDpgEnCTq0f557Je2m7nhNMpFy-a92G', },
 ];
 
 const Screen7 = ({ navigation }) => {
@@ -17,15 +19,93 @@ const Screen7 = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('All');
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
-  const openModal = (song) => {
+  const [sound, setSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [position, setPosition] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const openModal = async (song) => {
     setSelectedSong(song);
     setModalVisible(true);
+    await playPauseAudio(song.audio); // Phát nhạc khi modal mở
   };
 
-  const closeModal = () => {
+  const closeModal = async () => {
     setModalVisible(false);
     setSelectedSong(null);
+    await stopAudio(); // Ngừng nhạc khi modal đóng
   };
+
+
+  useEffect(() => {
+    const updateStatus = async () => {
+      if (sound) {
+        const status = await sound.getStatusAsync();
+        if (status.isLoaded) {
+          setPosition(status.positionMillis || 0);
+          setDuration(status.durationMillis || 0);
+        }
+      }
+    };
+
+    const interval = setInterval(updateStatus, 1000);
+    return () => clearInterval(interval);
+  }, [sound]);
+
+  const playPauseAudio = async (audioUri) => {
+    try {
+      if (currentSong !== audioUri) {
+        if (sound) await sound.unloadAsync(); // Unload current sound
+        const { sound: newSound } = await Audio.Sound.createAsync(
+          { uri: audioUri }
+        );
+        setSound(newSound);
+        setCurrentSong(audioUri);
+        await newSound.playAsync();
+        setIsPlaying(true);
+      } else {
+        if (isPlaying) {
+          await sound.pauseAsync();
+        } else {
+          await sound.playAsync();
+        }
+        setIsPlaying(!isPlaying);
+      }
+    } catch (error) {
+      console.error('Error playing audio:', error);
+    }
+  };
+
+  const stopAudio = async () => {
+    if (sound) {
+      await sound.stopAsync();
+      setIsPlaying(false);
+      setPosition(0);
+    }
+  };
+
+  const formatTime = (millis) => {
+    if (!millis) return '0:00';
+    const minutes = Math.floor(millis / 60000);
+    const seconds = Math.floor((millis % 60000) / 1000);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+  const handlePreviousSong = async () => {
+    const currentIndex = songs.findIndex((song) => song.id === selectedSong.id);
+    const previousIndex = (currentIndex - 1 + songs.length) % songs.length; // Vòng lặp về cuối danh sách
+    const previousSong = songs[previousIndex];
+    setSelectedSong(previousSong);
+    await playPauseAudio(previousSong.audio); // Phát nhạc của bài trước
+  };
+
+  const handleNextSong = async () => {
+    const currentIndex = songs.findIndex((song) => song.id === selectedSong.id);
+    const nextIndex = (currentIndex + 1) % songs.length; // Vòng lặp về đầu danh sách
+    const nextSong = songs[nextIndex];
+    setSelectedSong(nextSong);
+    await playPauseAudio(nextSong.audio); // Phát nhạc của bài tiếp theo
+  };
+
   const renderSong = ({ item }) => (
     <TouchableOpacity onPress={() => openModal(item)}>
       <View style={styles.songContainer}>
@@ -133,36 +213,55 @@ const Screen7 = ({ navigation }) => {
           visible={isModalVisible}
           transparent
           animationType="slide"
-          onRequestClose={closeModal}
-        >
+          onRequestClose={closeModal}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-                {/* Ảnh bài hát */}
+              {/* Song Info */}
+              <View style={styles.modalHeader}>
                 <Image source={selectedSong.image} style={styles.modalImage} />
-
-                {/* Thông tin bài hát */}
-                <View style={{ flex: 1, marginRight: "2%" }}>
-                  <Text style={styles.modalTitle} numberOfLines={1} ellipsizeMode="tail">
-                    {selectedSong.title}
-                  </Text>
-                  <Text style={styles.modalArtist} numberOfLines={1} ellipsizeMode="tail">
-                    {selectedSong.artist}
-                  </Text>
+                <View style={{ flex: 1, marginHorizontal: 10 }}>
+                  <Text style={styles.modalTitle}>{selectedSong.title}</Text>
+                  <Text style={styles.modalArtist}>{selectedSong.artist}</Text>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                  <TouchableOpacity style={{ marginRight: "4%" }}>
-                    <Icon name="play-outline" size={24} color="white" />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ marginRight: "4%" }}>
-                    <Icon name="heart-outline" size={24} color="white" />
-                  </TouchableOpacity>
-                  {/* Nút đóng modal luôn đứng cuối */}
-                  <TouchableOpacity onPress={closeModal}>
-                    <Icon name="close" size={24} color="red" />
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={closeModal}>
+                  <Icon name="close" size={48} color="red" />
+                </TouchableOpacity>
               </View>
+
+              {/* Player Controls */}
+              <View style={styles.controls}>
+                <TouchableOpacity onPress={() => handlePreviousSong()}>
+                  <Icon name="play-skip-back-outline" size={48} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => playPauseAudio(selectedSong.audio)}>
+                  <Icon
+                    name={isPlaying ? "pause-circle-outline" : "play-circle-outline"}
+                    size={48}
+                    color="white"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleNextSong()}>
+                  <Icon name="play-skip-forward-outline" size={48} color="white" />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Progress Bar at the Bottom */}
+            <View style={styles.progressContainer}>
+              <Text style={styles.progressText}>{formatTime(position)}</Text>
+              <Slider
+                style={styles.progressBar}
+                minimumValue={0}
+                maximumValue={duration}
+                value={position}
+                minimumTrackTintColor="#1db954"
+                maximumTrackTintColor="#ccc"
+                thumbTintColor="#1db954"
+                onSlidingComplete={async (value) => {
+                  if (sound) await sound.setPositionAsync(value);
+                }}
+              />
+              <Text style={styles.progressText}>{formatTime(duration)}</Text>
             </View>
           </View>
         </Modal>
@@ -260,49 +359,59 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     justifyContent: "flex-end",
-  },
-  modalContent: {
+    paddingBottom: '17%',
+},
+modalContent: {
     backgroundColor: "black",
-    width: "100%",
-    position: "absolute",
-    bottom: "8%",
-    left: 0,
-    right: 0,
-    padding: 10,
+    padding: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-  },
-  modalImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
-    marginRight: 10,
-  },
-  modalTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white",
-    maxWidth: 150,
-  },
-  modalArtist: {
-    fontSize: 14,
-    color: "white",
-    maxWidth: 150,
-  },
-  modalActions: {
+},
+modalHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginBottom: 20,
+},
+modalImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+},
+modalTitle: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+},
+modalArtist: {
+    color: "gray",
+    fontSize: 14,
+},
+controls: {
+    alignItems: "center",
+    marginVertical: 20,
+},
+progressContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    backgroundColor: "black",
+    height: 60,
+},
+progressText: {
+    fontSize: 14,
+    color: "white",
+},
+progressBar: {
     flex: 1,
-    marginLeft: "1%",
-  },
-  closeButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    padding: 10,
-    borderRadius: 50,
-  },
+    marginHorizontal: 10,
+},
+controls: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    marginVertical: 20,
+},
 });
 
 export default Screen7;
