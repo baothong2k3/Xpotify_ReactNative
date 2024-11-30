@@ -275,21 +275,25 @@ const Screen3 = ({ navigation }) => {
       </View>
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity onPress={() => navigation.navigate("Screen2")}>
+        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigation.navigate("Screen2")}>
           <Icon name="home-outline" size={24} color="#000" />
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Screen6")}>
+        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigation.navigate("Screen6")}>
           <Icon name="search-outline" size={24} color="#000" />
           <Text style={styles.navText}>Search</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("FeedScreen")}>
+        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigation.navigate("FeedScreen")}>
           <Icon name="list-outline" size={24} color="#000" />
           <Text style={styles.navText}>Feed</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("LibraryScreen")}>
+        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigation.navigate("LibraryScreen")}>
           <Icon name="library-outline" size={24} color="#54aeff" />
           <Text style={styles.navText}>Library</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigation.navigate("ScreenAI")}>
+          <Icon name="chatbubble-ellipses-outline" size={24} color="#000" />
+          <Text style={styles.navText}>GeminiAI</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -378,57 +382,57 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     paddingBottom: '17%',
-},
-modalContent: {
+  },
+  modalContent: {
     backgroundColor: "black",
     padding: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-},
-modalHeader: {
+  },
+  modalHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
-},
-modalImage: {
+  },
+  modalImage: {
     width: 60,
     height: 60,
     borderRadius: 8,
-},
-modalTitle: {
+  },
+  modalTitle: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
-},
-modalArtist: {
+  },
+  modalArtist: {
     color: "gray",
     fontSize: 14,
-},
-controls: {
+  },
+  controls: {
     alignItems: "center",
     marginVertical: 20,
-},
-progressContainer: {
+  },
+  progressContainer: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
     backgroundColor: "black",
     height: 60,
-},
-progressText: {
+  },
+  progressText: {
     fontSize: 14,
     color: "white",
-},
-progressBar: {
+  },
+  progressBar: {
     flex: 1,
     marginHorizontal: 10,
-},
-controls: {
+  },
+  controls: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
     marginVertical: 20,
-},
+  },
 });
 export default Screen3;

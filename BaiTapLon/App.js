@@ -15,6 +15,7 @@ import Screen10 from "./Screen/MyLibraryScreen(10)";
 import Screen11 from "./Screen/PlaylistScreen(11)";
 import Screen12 from "./Screen/LaunchScreenPremium(12)";
 import Screen13 from "./Screen/SubscriptionPlans(13)";
+import ScreenAI from "./Screen/GeminiAI";
 // Khởi tạo Stack Navigator
 const Stack = createStackNavigator();
 
@@ -22,7 +23,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Screen7"
+        initialRouteName="Screen2"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Screen1" component={Screen1} />
@@ -36,7 +37,8 @@ export default function App() {
         <Stack.Screen name="LibraryScreen" component={Screen10} /> 
         <Stack.Screen name="PlaylistScreen" component={Screen11} /> 
         <Stack.Screen name="PremiumScreen" component={Screen12} /> 
-        <Stack.Screen name="SubscriptionScreen" component={Screen13} /> 
+        <Stack.Screen name="SubscriptionScreen" component={Screen13} />
+        <Stack.Screen name="ScreenAI" component={ScreenAI} /> 
       </Stack.Navigator>
     </NavigationContainer>
   );
