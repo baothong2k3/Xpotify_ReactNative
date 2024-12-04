@@ -152,9 +152,9 @@ const Screen2 = ({ navigation }) => {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => navigation.navigate("Screen5")}><Image
-                source={require('../assets/5_image/Image 63.png')} style={{ width: 136, height: 136 }} />
+                source={{uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Post_Malone_2018.jpg/250px-Post_Malone_2018.jpg"}} style={{ width: 136, height: 136, borderRadius: 136 }} />
               </TouchableOpacity>
-              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Ryan Young</Text>
+              <Text style={{ fontWeight: "#666", textAlign: 'center', marginVertical: '8%' }}>Post Malone</Text>
               <TouchableOpacity style={{
                 width: '50%',
                 backgroundColor: 'black',

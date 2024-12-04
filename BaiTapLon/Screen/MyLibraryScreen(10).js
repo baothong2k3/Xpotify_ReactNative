@@ -11,117 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
-const songs = [
-    {
-        id: '1',
-        title: 'FLOWER',
-        artist: 'Jessica Gonzalez',
-        plays: '2.1M',
-        duration: '3:36',
-        image: require('../assets/Screen10/Image101.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1c4iAyqzRND2TnM3GO0iGh5N3DOJLwmh3',
-    },
-    {
-        id: '2',
-        title: 'Occaecat',
-        artist: 'Jose Garcia',
-        plays: '1.5M',
-        duration: '4:20',
-        image: require('../assets/Screen10/Image102.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1N92Or5Z2Y7jW61mCM8NFVtQpJYsheb_k',
-    },
-    {
-        id: '3',
-        title: 'Luctus',
-        artist: 'Ashley Scott',
-        plays: '3.8M',
-        duration: '3:50',
-        image: require('../assets/Screen10/Image103.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1rEXxQVB58R0l8EbxZZCd4ATJRyvIZzvW',
-    },
-    {
-        id: '4',
-        title: 'Tempus Vivamus',
-        artist: 'Maria Johnson',
-        plays: '2.7M',
-        duration: '4:12',
-        image: require('../assets/Screen10/Image104.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1htuRwn5iLK4gsPYnEgcJYshdPWD2Flq1',
-    },
-    {
-        id: '5',
-        title: 'Metus',
-        artist: 'Kevin Adams',
-        plays: '1.9M',
-        duration: '3:15',
-        image: require('../assets/Screen10/Image105.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1lv1x2b1mjSVhNVykv3PMcxj64EKYR09i',
-    },
-    {
-        id: '6',
-        title: 'Ultricies Pellentesque',
-        artist: 'Emma Brown',
-        plays: '3.2M',
-        duration: '3:45',
-        image: require('../assets/Screen10/Image106.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1JZjs9wy3jWXq5mtDJmTC8CJwJVBNIVP6',
-    },
-    {
-        id: '7',
-        title: 'Aliquet Magna',
-        artist: 'James Lee',
-        plays: '4.1M',
-        duration: '3:40',
-        image: require('../assets/Screen10/Image107.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1YEDpgEnCTq0f557Je2m7nhNMpFy-a92G',
-    },
-    {
-        id: '8',
-        title: 'Gravida Quam',
-        artist: 'Sophia Wilson',
-        plays: '2.3M',
-        duration: '4:00',
-        image: require('../assets/Screen10/Image106.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1wSWpcB1gmg945UMCUSMhRSxxCH-hdxjI',
-    },
-    {
-        id: '9',
-        title: 'Fringilla Vel',
-        artist: 'Liam Miller',
-        plays: '1.6M',
-        duration: '3:30',
-        image: require('../assets/Screen10/Image105.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1aeGSJWPfEiSSvIGELO0R5hDc1_zDe6x4',
-    },
-    {
-        id: '10',
-        title: 'Hendrerit',
-        artist: 'Ella Martinez',
-        plays: '2.9M',
-        duration: '3:55',
-        image: require('../assets/Screen10/Image104.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1GNchCL9OLXDwpdxmJ9YwmucQk-ybnKxg',
-    },
-    {
-        id: '11',
-        title: 'Suspendisse',
-        artist: 'Lucas Taylor',
-        plays: '3.5M',
-        duration: '4:10',
-        image: require('../assets/Screen10/Image103.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1l_Lw2yqHt7O-Uw8MrYrIorlvwz-AO7Y8',
-    },
-    {
-        id: '12',
-        title: 'Accumsan',
-        artist: 'Mia Anderson',
-        plays: '4.0M',
-        duration: '4:25',
-        image: require('../assets/Screen10/Image102.png'),
-        audio: 'https://drive.google.com/uc?export=download&id=1PImmPU3NBnpNJVsX7eNH2kVySvZRIvWs',
-    },
-];
-
+import axios from 'axios';
 const LibraryScreen = ({ navigation }) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedSong, setSelectedSong] = useState(null);
@@ -130,6 +20,19 @@ const LibraryScreen = ({ navigation }) => {
     const [currentSong, setCurrentSong] = useState(null);
     const [position, setPosition] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [songs, setSongs] = useState([]);
+    useEffect(() => {
+        const fetchSongs = async () => {
+            try {
+                const response = await axios.get('https://6750288b69dc1669ec19e8a4.mockapi.io/song');
+                setSongs(response.data);
+            } catch (error) {
+                console.error('Error fetching songs:', error);
+            }
+        };
+
+        fetchSongs();
+    }, []);
     const openModal = async (song) => {
         setSelectedSong(song);
         setModalVisible(true);
@@ -243,10 +146,10 @@ const LibraryScreen = ({ navigation }) => {
                 <View style={styles.profile}>
                     <Image
                         style={styles.profileImage}
-                        source={require('../assets/Screen10/Image107.png')}
+                        source={{uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Post_Malone_2018.jpg/250px-Post_Malone_2018.jpg"}}
                     />
                     <View style={styles.profileInfo}>
-                        <Text style={styles.profileName}>Mer Watson</Text>
+                        <Text style={styles.profileName}>Post Malone</Text>
                         <Text style={styles.profileFollowers}>8 1.234K Followers</Text>
                     </View>
                     <TouchableOpacity style={styles.followButton}>
@@ -261,7 +164,7 @@ const LibraryScreen = ({ navigation }) => {
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => openModal(item)}>
                             <View style={styles.song}>
-                                <Image style={styles.songImage} source={item.image} />
+                                <Image style={styles.songImage} source={{uri:item.image}} />
                                 <View style={styles.songInfo}>
                                     <Text style={styles.songTitle}>{item.title}</Text>
                                     <Text style={styles.songArtist}>
@@ -291,7 +194,7 @@ const LibraryScreen = ({ navigation }) => {
                             <View style={styles.modalContent}>
                                 {/* Song Info */}
                                 <View style={styles.modalHeader}>
-                                    <Image source={selectedSong.image} style={styles.modalImage} />
+                                    <Image source={{uri:selectedSong.image}} style={styles.modalImage} />
                                     <View style={{ flex: 1, marginHorizontal: 10 }}>
                                         <Text style={styles.modalTitle}>{selectedSong.title}</Text>
                                         <Text style={styles.modalArtist}>{selectedSong.artist}</Text>

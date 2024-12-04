@@ -3,63 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView, 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
+import axios from 'axios';
 const Screen3 = ({ navigation }) => {
-  const songs = [
-    {
-      id: "1",
-      title: "Skyfall",
-      artist: "Adele",
-      plays: "2.1M",
-      duration: "4:49",
-      image: require('../assets/3_image/Image 51.png'),
-      audio: 'https://drive.google.com/uc?export=download&id=1c4iAyqzRND2TnM3GO0iGh5N3DOJLwmh3',
-    },
-    {
-      id: "2",
-      title: "Somewhere Only We Know",
-      artist: "Keane",
-      plays: "68M",
-      duration: "3:35",
-      image: require('../assets/3_image/Image 52.png'),
-      audio: 'https://drive.google.com/uc?export=download&id=1N92Or5Z2Y7jW61mCM8NFVtQpJYsheb_k',
-    },
-    {
-      id: "3",
-      title: "Die With Smile",
-      artist: "Lady Gaga",
-      plays: "93M",
-      duration: "4:12",
-      image: require('../assets/3_image/Image 53.png'),
-      audio: 'https://drive.google.com/uc?export=download&id=1rEXxQVB58R0l8EbxZZCd4ATJRyvIZzvW',
-    },
-    {
-      id: "4",
-      title: "Circles",
-      artist: "Post Malone",
-      plays: "9M",
-      duration: "3:46",
-      image: require('../assets/3_image/Image 54.png'),
-      audio: 'https://drive.google.com/uc?export=download&id=1htuRwn5iLK4gsPYnEgcJYshdPWD2Flq1',
-    },
-    {
-      id: "5",
-      title: "I Had Some Help",
-      artist: "Post Malone",
-      plays: "23M",
-      duration: "3:04",
-      image: require('../assets/3_image/Image 55.png'),
-      audio: 'https://drive.google.com/uc?export=download&id=1lv1x2b1mjSVhNVykv3PMcxj64EKYR09i',
-    },
-    {
-      id: "6",
-      title: "Missin You Like This",
-      artist: "Post Malone",
-      plays: "10M",
-      duration: "3:43",
-      image: require('../assets/3_image/Image 56.png'),
-      audio: 'https://drive.google.com/uc?export=download&id=1JZjs9wy3jWXq5mtDJmTC8CJwJVBNIVP6',
-    },
-  ];
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
   const [sound, setSound] = useState(null);
@@ -67,6 +12,19 @@ const Screen3 = ({ navigation }) => {
   const [currentSong, setCurrentSong] = useState(null);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [songs, setSongs] = useState([]);
+    useEffect(() => {
+        const fetchSongs = async () => {
+            try {
+                const response = await axios.get('https://6750288b69dc1669ec19e8a4.mockapi.io/song');
+                setSongs(response.data);
+            } catch (error) {
+                console.error('Error fetching songs:', error);
+            }
+        };
+
+        fetchSongs();
+    }, []);
   const openModal = async (song) => {
     setSelectedSong(song);
     setModalVisible(true);
@@ -151,7 +109,7 @@ const Screen3 = ({ navigation }) => {
   const renderSong = ({ item }) => (
     <TouchableOpacity onPress={() => openModal(item)}>
       <View style={styles.songContainer}>
-        <Image source={item.image} style={styles.songImage} />
+        <Image source={{uri:item.image}} style={styles.songImage} />
         <View style={styles.songDetails}>
           <Text style={styles.songTitle}>{item.title}</Text>
           <Text style={styles.songArtist}>{item.artist}</Text>
@@ -363,6 +321,9 @@ const styles = StyleSheet.create({
     paddingVertical: "2%",
   },
   songImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
   },
   songDetails: {
     flex: 1,

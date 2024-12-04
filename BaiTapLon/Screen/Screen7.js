@@ -3,16 +3,7 @@ import { View, Text, TextInput, FlatList, Image, TouchableOpacity, StyleSheet, M
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
-
-const songsData = [
-  { id: '1', title: 'Skyfall', artist: 'Adele', plays: '2.1M', duration: '4:49', image: require('../assets/7_image/Image 83.png'), audio: 'https://drive.google.com/uc?export=download&id=1c4iAyqzRND2TnM3GO0iGh5N3DOJLwmh3', },
-  { id: '2', title: 'Somewhere Only We Know', artist: 'Keane', plays: '68M', duration: '3:35', image: require('../assets/7_image/Image 84.png'), audio: 'https://drive.google.com/uc?export=download&id=1N92Or5Z2Y7jW61mCM8NFVtQpJYsheb_k', },
-  { id: '3', title: 'Die With Smile', artist: 'Lady Gaga', plays: '93M', duration: '4:12', image: require('../assets/7_image/Image 86.png'), audio: 'https://drive.google.com/uc?export=download&id=1rEXxQVB58R0l8EbxZZCd4ATJRyvIZzvW', },
-  { id: '4', title: 'Circles', artist: 'Post Malone', plays: '9M', duration: '3:46', image: require('../assets/7_image/Image 87.png'), audio: 'https://drive.google.com/uc?export=download&id=1htuRwn5iLK4gsPYnEgcJYshdPWD2Flq1', },
-  { id: '5', title: 'I Had Some Help', artist: 'Post Malone', plays: '23M', duration: '3:04', image: require('../assets/7_image/Image 88.png'), audio: 'https://drive.google.com/uc?export=download&id=1lv1x2b1mjSVhNVykv3PMcxj64EKYR09i', },
-  { id: '6', title: 'Missin You Like This', artist: 'Post Malone', plays: '10M', duration: '3:43', image: require('../assets/7_image/Image 89.png'), audio: 'https://drive.google.com/uc?export=download&id=1JZjs9wy3jWXq5mtDJmTC8CJwJVBNIVP6', },
-  { id: '7', title: 'Take What You Want', artist: 'Post Malone', plays: '81M', duration: '3:48', image: require('../assets/7_image/Image 90.png'), audio: 'https://drive.google.com/uc?export=download&id=1YEDpgEnCTq0f557Je2m7nhNMpFy-a92G', },
-];
+import axios from 'axios';
 
 const Screen7 = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,6 +15,19 @@ const Screen7 = ({ navigation }) => {
   const [currentSong, setCurrentSong] = useState(null);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [songs, setSongs] = useState([]);
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const response = await axios.get('https://6750288b69dc1669ec19e8a4.mockapi.io/song');
+        setSongs(response.data);
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
   const openModal = async (song) => {
     setSelectedSong(song);
     setModalVisible(true);
@@ -109,7 +113,7 @@ const Screen7 = ({ navigation }) => {
   const renderSong = ({ item }) => (
     <TouchableOpacity onPress={() => openModal(item)}>
       <View style={styles.songContainer}>
-        <Image source={item.image} style={styles.songImage} />
+        <Image source={{ uri: item.image }} style={styles.songImage} />
         <View style={styles.songDetails}>
           <Text style={styles.songTitle}>{item.title}</Text>
           <Text style={styles.songArtist}>{item.artist}</Text>
@@ -182,7 +186,7 @@ const Screen7 = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <FlatList
-          data={songsData}
+          data={songs}
           keyExtractor={(item) => item.id}
           renderItem={renderSong}
           showsVerticalScrollIndicator={false}
@@ -222,7 +226,7 @@ const Screen7 = ({ navigation }) => {
             <View style={styles.modalContent}>
               {/* Song Info */}
               <View style={styles.modalHeader}>
-                <Image source={selectedSong.image} style={styles.modalImage} />
+                <Image source={{ uri: selectedSong.image }} style={styles.modalImage} />
                 <View style={{ flex: 1, marginHorizontal: 10 }}>
                   <Text style={styles.modalTitle}>{selectedSong.title}</Text>
                   <Text style={styles.modalArtist}>{selectedSong.artist}</Text>
@@ -275,6 +279,11 @@ const Screen7 = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  songImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+  },
   bottomNav: {
     position: "absolute",
     bottom: 0,

@@ -3,6 +3,7 @@ import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet, Modal } from
 import Icon from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import { Audio } from 'expo-av';
+import axios from 'axios';
 const Screen5 = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
@@ -11,6 +12,19 @@ const Screen5 = ({ navigation }) => {
   const [currentSong, setCurrentSong] = useState(null);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [songs, setSongs] = useState([]);
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const response = await axios.get('https://6750288b69dc1669ec19e8a4.mockapi.io/PostMalone');
+        setSongs(response.data);
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
   const openModal = async (song) => {
     setSelectedSong(song);
     setModalVisible(true);
@@ -93,16 +107,9 @@ const Screen5 = ({ navigation }) => {
     await playPauseAudio(nextSong.audio); // Phát nhạc của bài tiếp theo
   };
   const artist = {
-    name: 'Ryan Young',
+    name: 'Post Malone',
     followers: '65.1K Followers',
     imageUrl: require('../assets/5_image/Image 63.png'),
-    popularSongs: [
-      { id: '1', title: 'Skyfall', plays: '68M', duration: '03:35', imageUrl: require('../assets/5_image/Image 66.png'), audio: 'https://drive.google.com/uc?export=download&id=1c4iAyqzRND2TnM3GO0iGh5N3DOJLwmh3', },
-      { id: '2', title: 'Somewhere Only We Know', plays: '93M', duration: '04:39', imageUrl: require('../assets/5_image/Image 67.png'), audio: 'https://drive.google.com/uc?export=download&id=1N92Or5Z2Y7jW61mCM8NFVtQpJYsheb_k', },
-      { id: '3', title: 'Die With Smile', plays: '9M', duration: '07:48', imageUrl: require('../assets/5_image/Image 68.png'), audio: 'https://drive.google.com/uc?export=download&id=1rEXxQVB58R0l8EbxZZCd4ATJRyvIZzvW', },
-      { id: '4', title: 'Circles', plays: '23M', duration: '03:36', imageUrl: require('../assets/5_image/Image 69.png'), audio: 'https://drive.google.com/uc?export=download&id=1htuRwn5iLK4gsPYnEgcJYshdPWD2Flq1', },
-      { id: '5', title: 'I Had Some Help', plays: '10M', duration: '06:22', imageUrl: require('../assets/5_image/Image 70.png'), audio: 'https://drive.google.com/uc?export=download&id=1lv1x2b1mjSVhNVykv3PMcxj64EKYR09i', },
-    ],
     albums: [
       { id: '1', title: 'ME', artist: 'Jessica Gonzalez', imageUrl: require('../assets/5_image/Image 71.png') },
       { id: '2', title: 'Magna nost', artist: 'Jessica Gonzalez', imageUrl: require('../assets/5_image/Image 72.png') },
@@ -119,7 +126,7 @@ const Screen5 = ({ navigation }) => {
   const renderSong = ({ item }) => (
     <TouchableOpacity onPress={() => openModal(item)}>
       <View style={styles.songContainer}>
-        <Image source={item.imageUrl} />
+        <Image source={{ uri: item.imageUrl }} style={styles.songImage}/>
         <View style={styles.songDetails}>
           <Text style={styles.songTitle}>{item.title}</Text>
           <Text style={styles.songArtist}>{artist.name}</Text>
@@ -160,7 +167,8 @@ const Screen5 = ({ navigation }) => {
           <Icon name="chevron-back-sharp" size={24} color="#000" />
         </TouchableOpacity>
         <View style={{ alignItems: 'center' }}>
-          <Image source={artist.imageUrl} style={{ marginVertical: '3%' }} />
+          <Image
+            source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Post_Malone_2018.jpg/250px-Post_Malone_2018.jpg" }} style={{ width: 200, height: 200, borderRadius: 200, marginVertical: '3%' }} />
           <Text style={styles.artistName}>{artist.name}</Text>
           <Text style={styles.followers}>{artist.followers}</Text>
         </View>
@@ -218,7 +226,7 @@ const Screen5 = ({ navigation }) => {
     <View style={styles.container}>
       <View style={{ margin: '4%' }}>
         <FlatList
-          data={artist.popularSongs}
+          data={songs}
           renderItem={renderSong}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={renderHeader}
@@ -238,7 +246,7 @@ const Screen5 = ({ navigation }) => {
               <View style={styles.modalContent}>
                 {/* Song Info */}
                 <View style={styles.modalHeader}>
-                  <Image source={selectedSong.imageUrl} style={styles.modalImage} />
+                  <Image source={{ uri: selectedSong.imageUrl }} style={styles.modalImage} />
                   <View style={{ flex: 1, marginHorizontal: 10 }}>
                     <Text style={styles.modalTitle}>{selectedSong.title}</Text>
                     <Text style={styles.modalArtist}>{selectedSong.artist}</Text>
@@ -315,6 +323,11 @@ const Screen5 = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  songImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+  },
   bottomNav: {
     position: "absolute",
     bottom: 0,
